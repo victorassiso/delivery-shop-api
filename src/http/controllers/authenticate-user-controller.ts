@@ -1,8 +1,9 @@
-import { compare } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-import { prisma } from '@/lib/prisma'
+import { PrismaUsersReposity } from '@/repositories/prisma/prisma-users-repository'
+import { AuthenticateUserUseCase } from '@/use-cases/authenticate-user-use-case'
+import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials'
 
 export async function authenticateUserControler(
   request: FastifyRequest,
@@ -15,23 +16,18 @@ export async function authenticateUserControler(
 
   const { email, password } = authenticateUserSchema.parse(request.body)
 
-  // Validate email
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  })
+  try {
+    const usersRepository = new PrismaUsersReposity()
+    const authenticateUserUseCase = new AuthenticateUserUseCase(usersRepository)
 
-  if (!user) {
-    return reply.status(404).send({ error: 'E-mail not found!' })
-  }
+    const user = await authenticateUserUseCase.execute({ email, password })
 
-  // Validate password
-  const isPasswordValid = await compare(password, user.password_hash)
+    return reply.status(200).send(user)
+  } catch (err) {
+    if (err instanceof InvalidCredentialsError) {
+      return reply.status(400).send({ message: err.message })
+    }
 
-  if (isPasswordValid) {
-    return reply.status(200).send({ success: 'Login successful' })
-  } else {
-    return reply.status(403).send({ error: 'Invalid password!' })
+    throw err
   }
 }
