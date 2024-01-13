@@ -9,8 +9,9 @@
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup srx --out-dir build",
     "test": "vitest run",
-    "test:w": "vitest",
-    "test:c": "vitest run --coverage"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "@types/bcryptjs": "2.4.6",
     "@types/node": "^20.11.0",
     "@vitest/coverage-v8": "1.2.0",
+    "@vitest/ui": "1.2.0",
     "eslint": "^8.56.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "prisma": "5.8.0",
