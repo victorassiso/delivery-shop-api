@@ -39,9 +39,9 @@ describe('Create User Use Case', () => {
 
     await createUserUseCase.execute(userProps)
 
-    expect(() => createUserUseCase.execute(userProps)).rejects.toBeInstanceOf(
-      UserAlreadyExistsError,
-    )
+    await expect(() =>
+      createUserUseCase.execute(userProps),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 
   it('should be able to create user', async () => {
