@@ -1,5 +1,7 @@
-import fastify from "fastify";
-import { Router } from "./router";
+import fastify from 'fastify'
+
+import { prisma } from './lib/prisma'
+import { Router } from './router'
 
 export const app = fastify()
 
