@@ -28,9 +28,9 @@ export async function createUserController(
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
-    } else {
-      return reply.status(500).send() // TODO: fix me
     }
+
+    throw err
   }
 
   return reply.status(201).send()
