@@ -8,15 +8,26 @@ datasource db {
 }
 
 model User {
-  id            String @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
-  email         String @unique
+  email         String    @unique
   password_hash String
-  role          Role
+  role          Role?
+  business      Business? @relation(fields: [business_id], references: [id])
+  business_id   String?
 
   created_at DateTime @default(now())
 
   @@map("users")
+}
+
+model Business {
+  id   String @id @default(uuid())
+  name String
+  code String @unique
+  User User[]
+
+  @@map("businesses")
 }
 
 enum Role {
