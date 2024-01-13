@@ -32,4 +32,17 @@ export class PrismaUsersReposity implements UsersRepository {
 
     return user
   }
+
+  async updateBusinessId(user_id: string, business_id: string) {
+    const user = await prisma.user.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        business_id,
+      },
+    })
+
+    return user
+  }
 }

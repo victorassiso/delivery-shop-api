@@ -42,4 +42,19 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     return user
   }
+
+  async updateBusinessId(user_id: string, business_id: string) {
+    let user: User | null = null
+
+    this.items.map((item) => {
+      if (item.id === user_id) {
+        user = { ...item, business_id }
+        return user
+      } else {
+        return item
+      }
+    })
+
+    return user
+  }
 }
