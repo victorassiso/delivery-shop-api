@@ -4,12 +4,12 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 
 import { AuthenticateUserUseCase } from './authenticate-user-use-case'
-import { InvalidCredentialsError } from './errors/invalid-credentials'
+import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUserUseCase
 
-describe('Authenticate Use Case', () => {
+describe('Authenticate User Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new AuthenticateUserUseCase(usersRepository)
