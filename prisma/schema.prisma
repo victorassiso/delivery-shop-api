@@ -7,14 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// enum Role {
+//   user
+//   admin
+// }
+
 model User {
-  id            String    @id @default(uuid())
+  id            String @id @default(uuid())
   name          String
-  email         String    @unique
+  email         String @unique
   password_hash String
-  role          Role?
-  business      Business? @relation(fields: [business_id], references: [id])
-  business_id   String?
+  // role          Role?
+
+  business    Business? @relation(fields: [business_id], references: [id])
+  business_id String?
 
   created_at DateTime @default(now())
 
@@ -25,12 +31,26 @@ model Business {
   id   String @id @default(uuid())
   name String
   code String @unique
-  User User[]
+
+  User    User[]
+  Product Product[]
+
+  created_at DateTime @default(now())
 
   @@map("businesses")
 }
 
-enum Role {
-  user
-  admin
+model Product {
+  id           String @id @default(uuid())
+  name         String
+  category     String
+  cost_price   Float
+  retail_price Float
+
+  business    Business? @relation(fields: [business_id], references: [id])
+  business_id String?
+
+  created_at DateTime @default(now())
+
+  @@map("products")
 }
