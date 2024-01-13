@@ -22,4 +22,14 @@ export class PrismaBusinessesRepository implements BusinessesRepository {
 
     return business
   }
+
+  async findById(id: string) {
+    const business = await prisma.business.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return business
+  }
 }

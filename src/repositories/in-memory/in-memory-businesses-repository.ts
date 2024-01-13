@@ -12,6 +12,7 @@ export class InMemoryBusinessesRepository implements BusinessesRepository {
       id: 'business-1',
       name,
       code,
+      created_at: new Date(),
     }
 
     this.items.push(business)
@@ -21,6 +22,16 @@ export class InMemoryBusinessesRepository implements BusinessesRepository {
 
   async findByCode(code: string) {
     const business = this.items.find((item) => item.code === code)
+
+    if (!business) {
+      return null
+    }
+
+    return business
+  }
+
+  async findById(id: string) {
+    const business = this.items.find((item) => item.id === id)
 
     if (!business) {
       return null
