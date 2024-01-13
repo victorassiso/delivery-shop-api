@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { prisma } from 'src/lib/prisma'
+
+import { prisma } from '@/lib/prisma'
 
 export async function listUsersController(
   request: FastifyRequest,

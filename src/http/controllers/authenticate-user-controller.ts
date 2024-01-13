@@ -1,7 +1,8 @@
 import { compare } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { prisma } from 'src/lib/prisma'
 import { z } from 'zod'
+
+import { prisma } from '@/lib/prisma'
 
 export async function authenticateUserControler(
   request: FastifyRequest,

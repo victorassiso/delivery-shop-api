@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify'
-import { createUserController } from 'src/http/controllers/create-user-controller'
+
+import { createUserController } from '@/http/controllers/create-user-controller'
 
 import { authenticateUserControler } from './controllers/authenticate-user-controller'
 import { listUsersController } from './controllers/list-users-controller'
