@@ -1,23 +1,27 @@
 import { compare } from 'bcryptjs'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 
 import { CreateUserUseCase } from './create-user-use-case'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
-describe('Create User Use Case', () => {
-  it('should hash user password upon registration', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const createUserUseCase = new CreateUserUseCase(usersRepository)
+let usersRepository: InMemoryUsersRepository
+let sut: CreateUserUseCase
 
+describe('Create User Use Case', () => {
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository()
+    sut = new CreateUserUseCase(usersRepository)
+  })
+  it('should hash user password upon registration', async () => {
     const userProps = {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
     }
 
-    const { user } = await createUserUseCase.execute(userProps)
+    const { user } = await sut.execute(userProps)
 
     const isPasswordCorrectlyHashed = await compare(
       userProps.password,
@@ -28,33 +32,27 @@ describe('Create User Use Case', () => {
   })
 
   it('should not be able to create a new user with an e-mail that already exists', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const createUserUseCase = new CreateUserUseCase(usersRepository)
-
     const userProps = {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
     }
 
-    await createUserUseCase.execute(userProps)
+    await sut.execute(userProps)
 
-    await expect(() =>
-      createUserUseCase.execute(userProps),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+    await expect(() => sut.execute(userProps)).rejects.toBeInstanceOf(
+      UserAlreadyExistsError,
+    )
   })
 
   it('should be able to create user', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const createUserUseCase = new CreateUserUseCase(usersRepository)
-
     const userProps = {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
     }
 
-    const { user } = await createUserUseCase.execute(userProps)
+    const { user } = await sut.execute(userProps)
 
     expect(user.id).toEqual(expect.any(String))
   })
