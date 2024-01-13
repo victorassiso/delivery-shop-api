@@ -1,5 +1,4 @@
 import { hash } from 'bcryptjs'
-import { prisma } from 'src/lib/prisma'
 import { UsersRepository } from 'src/repositories/users-repository'
 
 interface CreateUserUseCaseRequest {
