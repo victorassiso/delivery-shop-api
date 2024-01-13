@@ -14,7 +14,29 @@ export async function createUserController(
     role: z.enum(['user', 'admin']),
   })
 
-  const { name, email, password, role } = createUserSchema.parse(request.body)
+  const requestBody = createUserSchema.safeParse(request.body)
+
+  if (requestBody.success === false) {
+    console.error('Invalid User variables!', requestBody.error.format())
+
+    return reply.status(400).send({
+      error:
+        'Invalid User variables! ' + JSON.stringify(requestBody.error.format()),
+    })
+  }
+
+  const { name, email, password, role } = requestBody.data
+
+  // Validate email
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  })
+
+  if (user) {
+    return reply.status(400).send({ error: 'Email already exists!' })
+  }
 
   const password_hash = await hash(password, 6)
 
