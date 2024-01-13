@@ -1,8 +1,11 @@
 {
-  "extends": ["@rocketseat/eslint-config/node"],
+  "extends": [
+    "@rocketseat/eslint-config/node"
+  ],
   "plugins":["simple-import-sort"],
   "rules": {
     "simple-import-sort/imports": "error",
-    "import/newline-after-import": "error"
+    "import/newline-after-import": "error",
+    "camelcase": "off"
   }
 }
