@@ -1,5 +1,6 @@
+import fastifyCookie from '@fastify/cookie'
 import cors from '@fastify/cors'
-import fastifyjwt from '@fastify/jwt'
+import fastifyJwt from '@fastify/jwt'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 
@@ -8,12 +9,18 @@ import { businessRoutes } from './http/controllers/businesses/routes'
 import { userRoutes } from './http/controllers/users/routes'
 
 export const app = fastify()
-app.register(fastifyjwt, {
+app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
 })
-
+app.register(fastifyCookie)
 app.register(cors, {})
-
 app.register(userRoutes)
 app.register(businessRoutes)
 

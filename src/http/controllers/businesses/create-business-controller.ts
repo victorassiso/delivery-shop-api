@@ -11,10 +11,9 @@ export async function createBusinessController(
   const createBusinessBodySchema = z.object({
     name: z.string(),
     code: z.string(),
-    user_id: z.string(),
   })
 
-  const { name, code, user_id } = createBusinessBodySchema.parse(request.body)
+  const { name, code } = createBusinessBodySchema.parse(request.body)
 
   try {
     const createBusinessUseCase = makeCreateBusinessUseCase()
@@ -22,7 +21,7 @@ export async function createBusinessController(
     await createBusinessUseCase.execute({
       name,
       code,
-      user_id,
+      user_id: request.user.sub,
     })
   } catch (err) {
     if (err instanceof BusinessAlreadyExistsError) {
