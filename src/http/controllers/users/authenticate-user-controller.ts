@@ -22,6 +22,7 @@ export async function authenticateUserControler(
 
     const token = await reply.jwtSign(
       {
+        role: user.role,
         business_id: user.business_id,
       },
       {
@@ -32,7 +33,10 @@ export async function authenticateUserControler(
     )
 
     const refreshToken = await reply.jwtSign(
-      {},
+      {
+        business_id: user.business_id,
+        role: user.role,
+      },
       {
         sign: {
           sub: user.id,
