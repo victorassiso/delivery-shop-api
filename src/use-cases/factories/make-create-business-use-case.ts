@@ -3,12 +3,12 @@ import { PrismaUsersReposity } from '@/repositories/prisma/prisma-users-reposito
 
 import { CreateBusinessUseCase } from '../create-business-use-case'
 
-export function makeCreateUserUseCase() {
+export function makeCreateBusinessUseCase() {
   const usersRepository = new PrismaUsersReposity()
   const businessRepository = new PrismaBusinessesRepository()
-  const createBusinessUseCase = new CreateBusinessUseCase(
+  const makeCreateBusinessUseCase = new CreateBusinessUseCase(
     businessRepository,
     usersRepository,
   )
-  return createBusinessUseCase
+  return makeCreateBusinessUseCase
 }
