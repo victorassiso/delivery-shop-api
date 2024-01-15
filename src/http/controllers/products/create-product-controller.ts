@@ -37,5 +37,5 @@ export async function createProductController(
     throw err
   }
 
-  return reply.status(201)
+  return reply.status(201).send()
 }

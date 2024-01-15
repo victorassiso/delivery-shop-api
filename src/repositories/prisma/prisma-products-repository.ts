@@ -13,8 +13,12 @@ export class PrismaProductsRepository implements ProductsRepository {
     return product
   }
 
-  async list() {
-    const products = await prisma.product.findMany()
+  async list(business_id: string) {
+    const products = await prisma.product.findMany({
+      where: {
+        business_id,
+      },
+    })
 
     return products
   }

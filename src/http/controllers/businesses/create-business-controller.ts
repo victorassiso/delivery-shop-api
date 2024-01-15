@@ -17,7 +17,7 @@ export async function createBusinessController(
 
   try {
     const createBusinessUseCase = makeCreateBusinessUseCase()
-
+    console.log({ user_id: request.user.sub })
     await createBusinessUseCase.execute({
       name,
       code,

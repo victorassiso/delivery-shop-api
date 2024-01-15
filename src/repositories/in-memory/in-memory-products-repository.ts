@@ -25,8 +25,10 @@ export class InMemoryProductsRepository implements ProductsRepository {
     return product
   }
 
-  async list() {
-    const products = this.items
+  async list(business_id: string) {
+    const products = this.items.filter(
+      (item) => item.business_id === business_id,
+    )
 
     return products
   }
