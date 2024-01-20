@@ -36,7 +36,29 @@ export async function createWorkspaceController(
       },
     )
 
-    return reply.status(201).send({ token })
+    const refreshToken = await reply.jwtSign(
+      {
+        role: user.role,
+        workspace_id: user.workspace_id,
+      },
+      {
+        sign: {
+          sub: request.user.sub,
+          expiresIn: '7d',
+        },
+      },
+    )
+    console.log({ workspace_id: user.workspace_id })
+
+    return reply
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        sameSite: 'none',
+        httpOnly: true,
+      })
+      .status(201)
+      .send({ token })
   } catch (err) {
     if (err instanceof WorkspaceAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
