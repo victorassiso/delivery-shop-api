@@ -1,6 +1,9 @@
 import { Prisma, Workspace } from '@prisma/client'
 
-import { WorkspacesRepository } from '../workspaces-repository'
+import {
+  WorkspacesRepository,
+  WorkspaceUpdateInput,
+} from '../workspaces-repository'
 
 export class InMemoryWorkspacesRepository implements WorkspacesRepository {
   public items: Workspace[] = []
@@ -36,6 +39,21 @@ export class InMemoryWorkspacesRepository implements WorkspacesRepository {
     if (!workspace) {
       return null
     }
+
+    return workspace
+  }
+
+  async update(data: WorkspaceUpdateInput) {
+    let workspace: Workspace | null = null
+
+    this.items.map((item) => {
+      if (item.id === data.id) {
+        workspace = { ...item, ...data }
+        return workspace
+      } else {
+        return item
+      }
+    })
 
     return workspace
   }

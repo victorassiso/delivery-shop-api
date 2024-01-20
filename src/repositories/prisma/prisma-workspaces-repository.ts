@@ -2,7 +2,10 @@ import { Prisma } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 
-import { WorkspacesRepository } from '../workspaces-repository'
+import {
+  WorkspacesRepository,
+  WorkspaceUpdateInput,
+} from '../workspaces-repository'
 
 export class PrismaWorkspacesRepository implements WorkspacesRepository {
   async create(data: Prisma.WorkspaceCreateInput) {
@@ -27,6 +30,19 @@ export class PrismaWorkspacesRepository implements WorkspacesRepository {
     const workspace = await prisma.workspace.findUnique({
       where: {
         id,
+      },
+    })
+
+    return workspace
+  }
+
+  async update(data: WorkspaceUpdateInput) {
+    const workspace = await prisma.workspace.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        ...data,
       },
     })
 
