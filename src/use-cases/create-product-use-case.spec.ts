@@ -48,6 +48,7 @@ describe('Create Product Use Case', () => {
     const { product } = await sut.execute({
       name: 'Example name',
       category: 'Example category',
+      description: 'This is an example',
       cost_price: 9.99,
       retail_price: 9.99,
       workspace_id: workspace.id,

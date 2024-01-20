@@ -8,16 +8,26 @@ export class InMemoryProductsRepository implements ProductsRepository {
   public items: Product[] = []
 
   async create(data: Prisma.ProductUncheckedCreateInput) {
-    const { name, category, cost_price, retail_price, workspace_id } = data
+    const {
+      name,
+      category,
+      description,
+      cost_price,
+      retail_price,
+      workspace_id,
+    } = data
+    const now = new Date()
 
     const product: Product = {
       id: randomUUID(),
       name,
       category,
+      description: description ?? '',
       cost_price,
       retail_price,
       workspace_id,
-      created_at: new Date(),
+      created_at: now,
+      updated_at: now,
     }
 
     this.items.push(product)

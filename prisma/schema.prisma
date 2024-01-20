@@ -23,6 +23,7 @@ model User {
   workspace_id String?
 
   created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("users")
 }
@@ -36,13 +37,15 @@ model Workspace {
   Product Product[]
 
   created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("workspaces")
 }
 
 model Product {
-  id           String @id @default(uuid())
+  id           String  @id @default(uuid())
   name         String
+  description  String?
   category     String
   cost_price   Float
   retail_price Float
@@ -51,6 +54,7 @@ model Product {
   workspace_id String
 
   created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("products")
 }

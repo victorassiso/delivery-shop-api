@@ -55,6 +55,7 @@ describe('Update Workspace Use Case', () => {
     await createProductUseCase.execute({
       name: 'Example',
       category: 'Examples',
+      description: 'This is an example',
       cost_price: 99.99,
       retail_price: 199.99,
       workspace_id: createdWorkspace.id,

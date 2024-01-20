@@ -8,6 +8,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 interface CreateProductUseCaseRequest {
   name: string
   category: string
+  description?: string | null
   cost_price: number
   retail_price: number
   workspace_id: string
@@ -26,6 +27,7 @@ export class CreateProductUseCase {
   async execute({
     name,
     category,
+    description,
     cost_price,
     retail_price,
     workspace_id,
@@ -41,6 +43,7 @@ export class CreateProductUseCase {
     const product = await this.productsRepository.create({
       name,
       category,
+      description,
       cost_price,
       retail_price,
       workspace_id,

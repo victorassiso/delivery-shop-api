@@ -11,6 +11,7 @@ export async function createProductController(
   const createProductBodySchema = z.object({
     name: z.string().min(1),
     category: z.string().min(1),
+    description: z.string().nullable(),
     cost_price: z.number(),
     retail_price: z.number(),
   })
