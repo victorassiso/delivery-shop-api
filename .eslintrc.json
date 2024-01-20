@@ -2,11 +2,14 @@
   "extends": [
     "@rocketseat/eslint-config/node"
   ],
-  "plugins":["simple-import-sort"],
+  "plugins": [
+    "simple-import-sort"
+  ],
   "rules": {
     "simple-import-sort/imports": "error",
     "import/newline-after-import": "error",
     "camelcase": "off",
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "no-empty-function": "off"
   }
 }

@@ -34,8 +34,8 @@ export async function authenticateUserControler(
 
     const refreshToken = await reply.jwtSign(
       {
-        business_id: user.business_id,
         role: user.role,
+        business_id: user.business_id,
       },
       {
         sign: {
@@ -49,11 +49,13 @@ export async function authenticateUserControler(
       .setCookie('refreshToken', refreshToken, {
         path: '/',
         secure: true,
-        sameSite: true,
+        sameSite: 'none',
         httpOnly: true,
       })
       .status(200)
-      .send({ token })
+      .send({
+        token,
+      })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message })

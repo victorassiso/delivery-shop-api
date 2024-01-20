@@ -10,6 +10,21 @@ import { productRoutes } from './http/controllers/products/routes'
 import { userRoutes } from './http/controllers/users/routes'
 
 export const app = fastify()
+
+app.register(cors, {
+  credentials: true,
+  allowedHeaders: ['content-type'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+  origin: (origin, cb) => {
+    if (!origin) {
+      // Return false if no origin is provided
+      return cb(null, false)
+    }
+    // Your origin validation logic here
+    cb(null, true)
+  },
+})
+
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   cookie: {
@@ -20,8 +35,8 @@ app.register(fastifyJwt, {
     expiresIn: '10m',
   },
 })
+
 app.register(fastifyCookie)
-app.register(cors, {})
 app.register(userRoutes)
 app.register(productRoutes)
 app.register(businessRoutes)

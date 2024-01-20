@@ -17,12 +17,26 @@ export async function createBusinessController(
 
   try {
     const createBusinessUseCase = makeCreateBusinessUseCase()
-    console.log({ user_id: request.user.sub })
-    await createBusinessUseCase.execute({
+
+    const { user } = await createBusinessUseCase.execute({
       name,
       code,
       user_id: request.user.sub,
     })
+
+    const token = await reply.jwtSign(
+      {
+        role: user.role,
+        business_id: user.business_id,
+      },
+      {
+        sign: {
+          sub: request.user.sub,
+        },
+      },
+    )
+
+    return reply.status(201).send({ token })
   } catch (err) {
     if (err instanceof BusinessAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
@@ -30,6 +44,4 @@ export async function createBusinessController(
 
     throw err
   }
-
-  return reply.status(201).send()
 }

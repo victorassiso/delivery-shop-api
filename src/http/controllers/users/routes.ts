@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify'
 
-import { createUserController } from '@/http/controllers/users/create-user-controller'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 
 import { authenticateUserControler } from './authenticate-user-controller'
+import { createUserController } from './create-user-controller'
 import { GetUserProfileController } from './get-user-profile-controller'
 import { refresh } from './refresh'
 
