@@ -42,7 +42,8 @@ export class PrismaWorkspacesRepository implements WorkspacesRepository {
         id: data.id,
       },
       data: {
-        ...data,
+        name: data.name,
+        code: data.code,
       },
     })
 

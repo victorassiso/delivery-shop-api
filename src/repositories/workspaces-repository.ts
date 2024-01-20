@@ -2,8 +2,8 @@ import { Prisma, Workspace } from '@prisma/client'
 
 export interface WorkspaceUpdateInput {
   id: string
-  name?: string
-  code?: string
+  name: string
+  code: string
 }
 export interface WorkspacesRepository {
   create(data: Prisma.WorkspaceCreateInput): Promise<Workspace>

@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { makeGetWorkspaceUseCase } from '@/use-cases/factories/make-get-workspace-use-case'
 
-export async function GetWorkspaceController(
+export async function getWorkspaceController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {

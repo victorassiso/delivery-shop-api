@@ -6,8 +6,8 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface UpdateWorkspaceUseCaseRequest {
   id: string
-  name?: string
-  code?: string
+  name: string
+  code: string
 }
 
 interface UpdateWorkspaceUseCaseResponse {

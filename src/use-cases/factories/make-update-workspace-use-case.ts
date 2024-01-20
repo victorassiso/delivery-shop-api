@@ -2,10 +2,8 @@ import { PrismaWorkspacesRepository } from '@/repositories/prisma/prisma-workspa
 
 import { UpdateWorkspaceUseCase } from '../update-workspace-use-case'
 
-export function makeCreateWorkspaceUseCase() {
+export function makeUpdateWorkspaceUseCase() {
   const workspaceRepository = new PrismaWorkspacesRepository()
-  const makeUpdateWorkspaceUseCase = new UpdateWorkspaceUseCase(
-    workspaceRepository,
-  )
-  return makeUpdateWorkspaceUseCase
+  const updateWorkspaceUseCase = new UpdateWorkspaceUseCase(workspaceRepository)
+  return updateWorkspaceUseCase
 }
