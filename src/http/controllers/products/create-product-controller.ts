@@ -19,15 +19,15 @@ export async function createProductController(
   try {
     const createProductUseCase = makeCreateProductUseCase()
 
-    const business_id = request.user.business_id
+    const workspace_id = request.user.workspace_id
 
-    if (!business_id) {
+    if (!workspace_id) {
       return reply.status(400).send({ message: 'Resource not found.' })
     }
 
     await createProductUseCase.execute({
       ...data,
-      business_id,
+      workspace_id,
     })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {

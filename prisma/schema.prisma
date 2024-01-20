@@ -19,15 +19,15 @@ model User {
   password_hash String
   role          Role?
 
-  business    Business? @relation(fields: [business_id], references: [id])
-  business_id String?
+  workspace    Workspace? @relation(fields: [workspace_id], references: [id])
+  workspace_id String?
 
   created_at DateTime @default(now())
 
   @@map("users")
 }
 
-model Business {
+model Workspace {
   id   String @id @default(uuid())
   name String
   code String @unique
@@ -37,7 +37,7 @@ model Business {
 
   created_at DateTime @default(now())
 
-  @@map("businesses")
+  @@map("workspaces")
 }
 
 model Product {
@@ -47,8 +47,8 @@ model Product {
   cost_price   Float
   retail_price Float
 
-  business    Business @relation(fields: [business_id], references: [id])
-  business_id String
+  workspace    Workspace @relation(fields: [workspace_id], references: [id])
+  workspace_id String
 
   created_at DateTime @default(now())
 

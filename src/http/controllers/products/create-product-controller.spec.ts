@@ -10,11 +10,21 @@ describe('Create Product (e2e)', () => {
   })
 
   it('should be able to create a new Product', async () => {
-    const { token } = await CreateAndAuthenticateUser(app)
+    const { token: authToken } = await CreateAndAuthenticateUser(app)
+
+    const createWorkspaceResponse = await request(app.server)
+      .post('/workspaces')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        name: 'My Workspace',
+        code: 'myworkspaceuniquecode',
+      })
+
+    const { token: createWorkspaceToken } = createWorkspaceResponse.body
 
     const response = await request(app.server)
       .post('/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${createWorkspaceToken}`)
       .send({
         name: 'product example',
         category: 'example',

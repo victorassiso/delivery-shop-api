@@ -8,7 +8,7 @@ export class InMemoryProductsRepository implements ProductsRepository {
   public items: Product[] = []
 
   async create(data: Prisma.ProductUncheckedCreateInput) {
-    const { name, category, cost_price, retail_price, business_id } = data
+    const { name, category, cost_price, retail_price, workspace_id } = data
 
     const product: Product = {
       id: randomUUID(),
@@ -16,7 +16,7 @@ export class InMemoryProductsRepository implements ProductsRepository {
       category,
       cost_price,
       retail_price,
-      business_id,
+      workspace_id,
       created_at: new Date(),
     }
 
@@ -25,9 +25,9 @@ export class InMemoryProductsRepository implements ProductsRepository {
     return product
   }
 
-  async list(business_id: string) {
+  async list(workspace_id: string) {
     const products = this.items.filter(
-      (item) => item.business_id === business_id,
+      (item) => item.workspace_id === workspace_id,
     )
 
     return products

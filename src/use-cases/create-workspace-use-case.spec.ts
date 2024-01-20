@@ -1,43 +1,43 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { InMemoryBusinessesRepository } from '@/repositories/in-memory/in-memory-businesses-repository'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { InMemoryWorkspacesRepository } from '@/repositories/in-memory/in-memory-workspaces-repository'
 
-import { CreateBusinessUseCase } from './create-business-use-case'
 import { CreateUserUseCase } from './create-user-use-case'
-import { BusinessAlreadyExistsError } from './errors/business-already-exists-error'
+import { CreateWorkspaceUseCase } from './create-workspace-use-case'
+import { WorkspaceAlreadyExistsError } from './errors/workspace-already-exists-error'
 
-let businessesRepository: InMemoryBusinessesRepository
+let workspacesRepository: InMemoryWorkspacesRepository
 let usersRepository: InMemoryUsersRepository
 let createUserUseCase: CreateUserUseCase
-let sut: CreateBusinessUseCase
+let sut: CreateWorkspaceUseCase
 
-describe('Create Business Use Case', () => {
+describe('Create Workspace Use Case', () => {
   beforeEach(() => {
-    businessesRepository = new InMemoryBusinessesRepository()
+    workspacesRepository = new InMemoryWorkspacesRepository()
     usersRepository = new InMemoryUsersRepository()
     createUserUseCase = new CreateUserUseCase(usersRepository)
-    sut = new CreateBusinessUseCase(businessesRepository, usersRepository)
+    sut = new CreateWorkspaceUseCase(workspacesRepository, usersRepository)
   })
 
-  it('should be able to create a business', async () => {
+  it('should be able to create a workspace', async () => {
     const createUserResponse = await createUserUseCase.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
     })
 
-    const { business, user } = await sut.execute({
+    const { workspace, user } = await sut.execute({
       name: "John Doe's",
       code: 'John-Does-unique-code',
       user_id: createUserResponse.user.id,
     })
 
-    expect(business.id).toEqual(expect.any(String))
-    expect(user.business_id).toEqual(business.id)
+    expect(workspace.id).toEqual(expect.any(String))
+    expect(user.workspace_id).toEqual(workspace.id)
   })
 
-  it('should not be able to create a business with a business code that is already in use', async () => {
+  it('should not be able to create a workspace with a workspace code that is already in use', async () => {
     const createUserResponse = await createUserUseCase.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -56,6 +56,6 @@ describe('Create Business Use Case', () => {
         code: 'John-Does-unique-code',
         user_id: createUserResponse.user.id,
       }),
-    ).rejects.toBeInstanceOf(BusinessAlreadyExistsError)
+    ).rejects.toBeInstanceOf(WorkspaceAlreadyExistsError)
   })
 })

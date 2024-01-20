@@ -14,7 +14,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       email,
       password_hash,
       role: null,
-      business_id: null,
+      workspace_id: null,
       created_at: new Date(),
     }
 
@@ -43,12 +43,12 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
-  async updateBusinessId(user_id: string, business_id: string) {
+  async updateWorkspaceId(user_id: string, workspace_id: string) {
     let user: User | null = null
 
     this.items.map((item) => {
       if (item.id === user_id) {
-        user = { ...item, business_id }
+        user = { ...item, workspace_id }
         return user
       } else {
         return item

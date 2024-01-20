@@ -3,7 +3,7 @@ import { Product } from '@prisma/client'
 import { ProductsRepository } from '@/repositories/products-repository'
 
 interface ListProductsUseCaseRequest {
-  business_id: string
+  workspace_id: string
 }
 
 interface ListProductsUseCaseResponse {
@@ -12,9 +12,11 @@ interface ListProductsUseCaseResponse {
 export class ListProductsUseCase {
   constructor(private productsRepository: ProductsRepository) {}
 
-  async execute({ business_id }: ListProductsUseCaseRequest) {
-    const products = this.productsRepository.list(business_id)
+  async execute({
+    workspace_id,
+  }: ListProductsUseCaseRequest): Promise<ListProductsUseCaseResponse> {
+    const products = await this.productsRepository.list(workspace_id)
 
-    return products
+    return { products }
   }
 }

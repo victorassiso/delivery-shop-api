@@ -6,7 +6,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
   const token = await reply.jwtSign(
     {
       role: request.user.role,
-      business_id: request.user.business_id,
+      workspace_id: request.user.workspace_id,
     },
     {
       sign: {
@@ -18,7 +18,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
   const refreshToken = await reply.jwtSign(
     {
       role: request.user.role,
-      business_id: request.user.business_id,
+      workspace_id: request.user.workspace_id,
     },
     {
       sign: {

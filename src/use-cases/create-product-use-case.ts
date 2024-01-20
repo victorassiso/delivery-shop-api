@@ -1,7 +1,7 @@
 import { Product } from '@prisma/client'
 
-import { BusinessesRepository } from '@/repositories/businesses-repository'
 import { ProductsRepository } from '@/repositories/products-repository'
+import { WorkspacesRepository } from '@/repositories/workspaces-repository'
 
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
@@ -10,7 +10,7 @@ interface CreateProductUseCaseRequest {
   category: string
   cost_price: number
   retail_price: number
-  business_id: string
+  workspace_id: string
 }
 
 interface CreateProductUseCaseReply {
@@ -20,7 +20,7 @@ interface CreateProductUseCaseReply {
 export class CreateProductUseCase {
   constructor(
     private productsRepository: ProductsRepository,
-    private businessesRepository: BusinessesRepository,
+    private workspacesRepository: WorkspacesRepository,
   ) {}
 
   async execute({
@@ -28,12 +28,12 @@ export class CreateProductUseCase {
     category,
     cost_price,
     retail_price,
-    business_id,
+    workspace_id,
   }: CreateProductUseCaseRequest): Promise<CreateProductUseCaseReply> {
-    // Validate Business Id
-    const business = await this.businessesRepository.findById(business_id)
+    // Validate Workspace Id
+    const workspace = await this.workspacesRepository.findById(workspace_id)
 
-    if (!business) {
+    if (!workspace) {
       throw new ResourceNotFoundError()
     }
 
@@ -43,7 +43,7 @@ export class CreateProductUseCase {
       category,
       cost_price,
       retail_price,
-      business_id,
+      workspace_id,
     })
 
     return { product }
