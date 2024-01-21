@@ -10,12 +10,14 @@ export class InMemoryWorkspacesRepository implements WorkspacesRepository {
 
   async create(data: Prisma.WorkspaceCreateInput) {
     const { name, code } = data
+    const now = new Date()
 
     const workspace: Workspace = {
       id: 'workspace-1',
       name,
       code,
-      created_at: new Date(),
+      created_at: now,
+      updated_at: now,
     }
 
     this.items.push(workspace)
