@@ -33,8 +33,8 @@ model Workspace {
   name String
   code String @unique
 
-  User    User[]
-  Product Product[]
+  user    User[]
+  product Product[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -53,7 +53,7 @@ model Product {
   workspace    Workspace @relation(fields: [workspace_id], references: [id])
   workspace_id String
 
-  OrderItem OrderItem[]
+  orderItem OrderItem[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -64,12 +64,12 @@ model Product {
 model Order {
   id     String      @id @default(uuid())
   total  Float
-  status OrderStatus
+  status OrderStatus @default(pending)
 
   customer    Customer @relation(fields: [customer_id], references: [id])
   customer_id String
 
-  OrderItem OrderItem[]
+  orderItem OrderItem[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -109,7 +109,7 @@ model Customer {
   phone   String @unique
   address String
 
-  Order Order[]
+  order Order[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
