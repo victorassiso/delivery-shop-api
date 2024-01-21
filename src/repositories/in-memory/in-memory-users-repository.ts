@@ -1,6 +1,6 @@
 import { Prisma, User } from '@prisma/client'
 
-import { UsersRepository } from '../users-repository'
+import { UpdateWorkspaceId, UsersRepository } from '../users-repository'
 
 export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
@@ -45,7 +45,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
-  async updateWorkspaceId(user_id: string, workspace_id: string) {
+  async updateWorkspaceId({ user_id, workspace_id }: UpdateWorkspaceId) {
     let user: User | null = null
 
     this.items.map((item) => {

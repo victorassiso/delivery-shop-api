@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 
-import { UsersRepository } from '../users-repository'
+import { UpdateWorkspaceId, UsersRepository } from '../users-repository'
 
 export class PrismaUsersRepository implements UsersRepository {
   async create(data: Prisma.UserCreateInput) {
@@ -33,7 +33,7 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async updateWorkspaceId(user_id: string, workspace_id: string) {
+  async updateWorkspaceId({ user_id, workspace_id }: UpdateWorkspaceId) {
     const user = await prisma.user.update({
       where: {
         id: user_id,

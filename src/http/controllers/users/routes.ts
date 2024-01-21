@@ -6,6 +6,7 @@ import { authenticateUserControler } from './authenticate-user-controller'
 import { createUserController } from './create-user-controller'
 import { GetUserProfileController } from './get-user-profile-controller'
 import { refresh } from './refresh'
+import { signOut } from './sign-out-controller'
 
 export async function userRoutes(app: FastifyInstance) {
   app.post('/users', createUserController)
@@ -15,4 +16,5 @@ export async function userRoutes(app: FastifyInstance) {
 
   /* Authenticated */
   app.get('/me', { onRequest: [verifyJWT] }, GetUserProfileController)
+  app.post('/sign-out', { onRequest: [verifyJWT] }, signOut)
 }

@@ -50,10 +50,10 @@ export class CreateWorkspaceUseCase {
     })
 
     // Update User's Workspace Id
-    const updatedUser = await this.usersRepository.updateWorkspaceId(
+    const updatedUser = await this.usersRepository.updateWorkspaceId({
       user_id,
-      workspace.id,
-    )
+      workspace_id: workspace.id,
+    })
 
     if (!updatedUser) {
       throw new ResourceNotFoundError()
