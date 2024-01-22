@@ -30,13 +30,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
     return order
   }
 
-  async findMany({
-    workspace_id,
-    customerName,
-    status,
-    skip,
-    take,
-  }: GetOrderInput) {
+  async findMany({ workspace_id, customerName, status }: GetOrderInput) {
     const orders = await prisma.order.findMany({
       where: {
         workspace_id,
@@ -55,8 +49,6 @@ export class PrismaOrdersRepository implements OrdersRepository {
       orderBy: {
         created_at: 'desc',
       },
-      skip,
-      take,
     })
 
     return orders

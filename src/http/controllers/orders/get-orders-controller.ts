@@ -18,7 +18,7 @@ export async function getOrdersController(
   })
 
   const { pageIndex, orderId, customerName, status } =
-    getOrdersParamsSchema.parse(request.params)
+    getOrdersParamsSchema.parse(request.query)
 
   const workspace_id = request.user.workspace_id
   if (!workspace_id) {

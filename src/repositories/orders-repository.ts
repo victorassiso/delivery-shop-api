@@ -4,8 +4,6 @@ export interface GetOrderInput {
   workspace_id: string
   customerName?: string
   status?: OrderStatus
-  skip: number
-  take: number
 }
 
 export interface GetOrderResponse extends Order {

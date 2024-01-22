@@ -58,8 +58,6 @@ export class GetOrdersUseCase {
         workspace_id,
         customerName,
         status,
-        skip: pageIndex ? (pageIndex - 1) * 10 : 0,
-        take: 10,
       })
     }
 
@@ -73,14 +71,19 @@ export class GetOrdersUseCase {
       }
     })
 
+    const slicedOrders: OrderResponse[] = formatedOrders.slice(
+      (pageIndex || 0) * 10,
+      (pageIndex || 0) * 10 + 10,
+    )
+
     const meta = {
-      pageIndex: pageIndex ?? 1,
+      pageIndex: pageIndex ?? 0,
       perPage: 10,
       totalCount: formatedOrders.length,
     }
 
     return {
-      orders: formatedOrders,
+      orders: slicedOrders,
       meta,
     }
   }

@@ -94,7 +94,7 @@ export class InMemoryOrdersRepository implements OrdersRepository {
   }
 
   async findMany(params: GetOrderInput) {
-    const { workspace_id, customerName, status, skip, take } = params
+    const { workspace_id, customerName, status } = params
 
     // Include customer name
     let orders: GetOrderResponse[] = this.items.map((order) => {
@@ -132,8 +132,6 @@ export class InMemoryOrdersRepository implements OrdersRepository {
       }
       return 0
     })
-
-    orders.slice(skip, take)
 
     return orders
   }

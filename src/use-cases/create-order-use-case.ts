@@ -84,9 +84,9 @@ export class CreateOrderUseCase {
       itemsWithPrice.map(async (item) => {
         const orderItem = await this.orderItemsRepository.create({
           order_id: order.id,
-          price: (await item).price,
-          product_id: (await item).product_id,
-          quantity: (await item).quantity,
+          price: item.price,
+          product_id: item.product_id,
+          quantity: item.quantity,
           workspace_id,
         })
 
