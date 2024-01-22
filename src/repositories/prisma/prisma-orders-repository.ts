@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 
 import {
   GetOrderInput,
+  OrderDetails,
   OrdersRepository,
   UpdateStatusInput,
 } from '../orders-repository'
@@ -65,6 +66,41 @@ export class PrismaOrdersRepository implements OrdersRepository {
       },
       data: {
         status,
+      },
+    })
+
+    return order
+  }
+
+  async getOrderDetails(id: string) {
+    const order: OrderDetails | null = await prisma.order.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        status: true,
+        total: true,
+        created_at: true,
+        customer: {
+          select: {
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
+        orderItem: {
+          select: {
+            id: true,
+            price: true,
+            quantity: true,
+            product: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     })
 

@@ -8,6 +8,7 @@ import { cancelOrderController } from './cancel-order-controller'
 import { createOrderController } from './create-order-controller'
 import { deliverOrderController } from './deliver-order-controller'
 import { dispatchOrderController } from './dispatch-order-controller'
+import { getOrderDetailsController } from './get-order-details-controller'
 import { getOrdersController } from './get-orders-controller'
 
 export async function orderRoutes(app: FastifyInstance) {
@@ -15,6 +16,7 @@ export async function orderRoutes(app: FastifyInstance) {
 
   app.post('/orders', createOrderController)
   app.get('/orders', getOrdersController)
+  app.get('/orders/:orderId', getOrderDetailsController)
   app.patch('/orders/:orderId/approve', processOrderController)
   app.patch('/orders/:orderId/cancel', cancelOrderController)
   app.patch('/orders/:orderId/deliver', deliverOrderController)
