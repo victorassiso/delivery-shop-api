@@ -14,7 +14,7 @@ let createUserUseCase: CreateUserUseCase
 let createWorkspaceUseCase: CreateWorkspaceUseCase
 let sut: JoinInWorkspaceUseCase
 
-describe('Create Workspace Use Case', () => {
+describe('Join in Workspace Use Case', () => {
   beforeEach(() => {
     workspacesRepository = new InMemoryWorkspacesRepository()
     usersRepository = new InMemoryUsersRepository()

@@ -28,7 +28,7 @@ describe('Update Workspace Use Case', () => {
     sut = new UpdateWorkspaceUseCase(workspacesRepository)
   })
 
-  it('should be able to create a workspace', async () => {
+  it("should be able to update an user's workspace", async () => {
     const createUserResponse = await createUserUseCase.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -53,7 +53,7 @@ describe('Update Workspace Use Case', () => {
     expect(updatedWorkspace.code).toEqual('New-Code')
   })
 
-  it('should not be able to update a workspace that does not exists', async () => {
+  it("should not be able to update an user's workspace with a worspace code that does not exists", async () => {
     const createUserResponse = await createUserUseCase.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',

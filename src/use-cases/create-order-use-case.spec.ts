@@ -65,7 +65,7 @@ describe('Create Order Use Case', () => {
     )
   })
 
-  it('should be able to create order', async () => {
+  it('should be able to create an order', async () => {
     const { user } = await createUserUseCase.execute({
       name: 'User',
       email: 'user@example.com',

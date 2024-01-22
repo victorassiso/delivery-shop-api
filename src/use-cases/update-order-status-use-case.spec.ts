@@ -33,7 +33,7 @@ let createOrderUseCase: CreateOrderUseCase
 
 let sut: UpdateOrderStatusUseCase
 
-describe('Get Orders Use Case', () => {
+describe('Update Order Status Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     createUserUseCase = new CreateUserUseCase(usersRepository)

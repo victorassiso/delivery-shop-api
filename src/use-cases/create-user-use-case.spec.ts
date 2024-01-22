@@ -14,7 +14,8 @@ describe('Create User Use Case', () => {
     usersRepository = new InMemoryUsersRepository()
     sut = new CreateUserUseCase(usersRepository)
   })
-  it('should hash user password upon registration', async () => {
+
+  it('should be able to create user', async () => {
     const userProps = {
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -23,12 +24,7 @@ describe('Create User Use Case', () => {
 
     const { user } = await sut.execute(userProps)
 
-    const isPasswordCorrectlyHashed = await compare(
-      userProps.password,
-      user.password_hash,
-    )
-
-    expect(isPasswordCorrectlyHashed).toBe(true)
+    expect(user.id).toEqual(expect.any(String))
   })
 
   it('should not be able to create a new user with an e-mail that already exists', async () => {
@@ -45,7 +41,7 @@ describe('Create User Use Case', () => {
     )
   })
 
-  it('should be able to create user', async () => {
+  it('should hash user password upon registration', async () => {
     const userProps = {
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -54,6 +50,11 @@ describe('Create User Use Case', () => {
 
     const { user } = await sut.execute(userProps)
 
-    expect(user.id).toEqual(expect.any(String))
+    const isPasswordCorrectlyHashed = await compare(
+      userProps.password,
+      user.password_hash,
+    )
+
+    expect(isPasswordCorrectlyHashed).toBe(true)
   })
 })

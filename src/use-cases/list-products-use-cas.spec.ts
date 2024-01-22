@@ -19,7 +19,7 @@ let productsRepository: InMemoryProductsRepository
 let createProductUseCase: CreateProductUseCase
 let sut: ListProductsUseCase
 
-describe('Update Workspace Use Case', () => {
+describe('List Products Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     createUserUseCase = new CreateUserUseCase(usersRepository)
