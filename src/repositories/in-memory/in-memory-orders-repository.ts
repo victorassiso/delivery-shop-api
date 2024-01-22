@@ -6,6 +6,7 @@ import {
   GetOrderInput,
   GetOrderResponse,
   OrdersRepository,
+  UpdateStatusInput,
 } from '../orders-repository'
 
 export class InMemoryOrdersRepository implements OrdersRepository {
@@ -134,5 +135,20 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     })
 
     return orders
+  }
+
+  async updateStatus({ id, status }: UpdateStatusInput) {
+    let order = null
+
+    this.items = this.items.map((item) => {
+      if (item.id === id) {
+        order = { ...item, status }
+        return order
+      } else {
+        return item
+      }
+    })
+
+    return order
   }
 }

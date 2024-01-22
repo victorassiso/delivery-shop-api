@@ -2,7 +2,11 @@ import { Prisma } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 
-import { GetOrderInput, OrdersRepository } from '../orders-repository'
+import {
+  GetOrderInput,
+  OrdersRepository,
+  UpdateStatusInput,
+} from '../orders-repository'
 
 export class PrismaOrdersRepository implements OrdersRepository {
   async create(data: Prisma.OrderUncheckedCreateInput) {
@@ -52,5 +56,18 @@ export class PrismaOrdersRepository implements OrdersRepository {
     })
 
     return orders
+  }
+
+  async updateStatus({ id, status }: UpdateStatusInput) {
+    const order = await prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      },
+    })
+
+    return order
   }
 }

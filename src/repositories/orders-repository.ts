@@ -12,8 +12,13 @@ export interface GetOrderResponse extends Order {
   }
 }
 
+export interface UpdateStatusInput {
+  id: string
+  status: OrderStatus
+}
 export interface OrdersRepository {
   create(data: Prisma.OrderUncheckedCreateInput): Promise<Order>
   findById(id: string): Promise<GetOrderResponse | null>
   findMany(params: GetOrderInput): Promise<GetOrderResponse[]>
+  updateStatus({ id, status }: UpdateStatusInput): Promise<Order | null>
 }
