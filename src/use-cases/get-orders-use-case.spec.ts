@@ -67,7 +67,7 @@ describe('Get Orders Use Case', () => {
       customersRepository,
     )
 
-    sut = new GetOrdersUseCase(ordersRepository)
+    sut = new GetOrdersUseCase(ordersRepository, workspacesRepository)
   })
 
   it('should be able to get orders', async () => {
@@ -139,7 +139,7 @@ describe('Get Orders Use Case', () => {
       ],
     })
 
-    const { orders } = await sut.execute({})
+    const { orders } = await sut.execute({ workspace_id: workspace.id })
 
     expect(Array.isArray(orders)).toBe(true)
     expect(orders.length).toEqual(2)

@@ -4,6 +4,7 @@ import {
   GetOrderResponse,
   OrdersRepository,
 } from '@/repositories/orders-repository'
+import { WorkspacesRepository } from '@/repositories/workspaces-repository'
 
 interface OrderResponse {
   orderId: string
@@ -14,6 +15,7 @@ interface OrderResponse {
 }
 
 export interface GetOrdersUseCaseRequest {
+  workspace_id: string
   pageIndex?: number
   orderId?: string
   customerName?: string
@@ -30,9 +32,13 @@ export interface GetOrdersUseCaseResponse {
 }
 
 export class GetOrdersUseCase {
-  constructor(private ordersRepository: OrdersRepository) {}
+  constructor(
+    private ordersRepository: OrdersRepository,
+    private workspacesRepository: WorkspacesRepository,
+  ) {}
 
   async execute({
+    workspace_id,
     pageIndex,
     orderId,
     customerName,
@@ -49,6 +55,7 @@ export class GetOrdersUseCase {
       }
     } else {
       orders = await this.ordersRepository.findMany({
+        workspace_id,
         customerName,
         status,
         skip: pageIndex ? (pageIndex - 1) * 10 : 0,

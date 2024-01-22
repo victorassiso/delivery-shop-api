@@ -1,6 +1,7 @@
 import { Order, OrderStatus, Prisma } from '@prisma/client'
 
 export interface GetOrderInput {
+  workspace_id: string
   customerName?: string
   status?: OrderStatus
   skip: number

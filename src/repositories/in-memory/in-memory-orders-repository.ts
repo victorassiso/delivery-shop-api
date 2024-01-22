@@ -94,10 +94,9 @@ export class InMemoryOrdersRepository implements OrdersRepository {
   }
 
   async findMany(params: GetOrderInput) {
-    const { customerName, status, skip, take } = params
+    const { workspace_id, customerName, status, skip, take } = params
 
     // Include customer name
-
     let orders: GetOrderResponse[] = this.items.map((order) => {
       const customer = this.customers.find(
         (customer) => customer.id === order.customer_id,
@@ -110,6 +109,8 @@ export class InMemoryOrdersRepository implements OrdersRepository {
         },
       }
     })
+    // Filter by workspace_id
+    orders = orders.filter((item) => item.workspace_id === workspace_id)
 
     // Filter by customer name
     if (customerName) {
