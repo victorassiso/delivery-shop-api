@@ -69,8 +69,6 @@ export class CreateOrderUseCase {
 
     // Calculate Total
     const total = itemsWithPrice.reduce((acc, cur) => {
-      console.log({ acc })
-      console.log({ cur: cur.price })
       return (acc += cur.price * cur.quantity)
     }, 0)
 
