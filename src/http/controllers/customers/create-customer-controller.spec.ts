@@ -4,12 +4,12 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/app'
 import { CreateAndAuthenticateUserAndCreateWorkspace } from '@/utils/test/create-and-authenticate-user-and-workspace'
 
-describe('Create Product (e2e)', () => {
+describe('Create Customer (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
 
-  it('should be able to create a new Product', async () => {
+  it('should be able to create a Customer', async () => {
     const { token } = await CreateAndAuthenticateUserAndCreateWorkspace(app)
 
     const response = await request(app.server)

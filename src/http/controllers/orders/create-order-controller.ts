@@ -4,25 +4,26 @@ import { z } from 'zod'
 import { EmailAlreadyExistsError } from '@/use-cases/errors/email-already-exists-error'
 import { PhoneAlreadyExistsError } from '@/use-cases/errors/phone-already-exists-error'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
-import { makeCreateCustomerUseCase } from '@/use-cases/factories/make-create-customer-use-case'
+import { makeCreateOrderUseCase } from '@/use-cases/factories/make-create-order-use-case'
 
-export async function createCustomerController(
+export async function createOrderController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const createCustomerBodySchema = z.object({
-    name: z.string().min(1),
-    phone: z.string().min(1),
-    email: z.string().email(),
-    address: z.string().min(1),
+  const createOrderBodySchema = z.object({
+    customer_id: z.string(),
+    items: z.array(
+      z.object({
+        product_id: z.string(),
+        quantity: z.number(),
+      }),
+    ),
   })
 
-  const { name, email, address, phone } = createCustomerBodySchema.parse(
-    request.body,
-  )
+  const { customer_id, items } = createOrderBodySchema.parse(request.body)
 
   try {
-    const createCustomerUseCase = makeCreateCustomerUseCase()
+    const createOrderUseCase = makeCreateOrderUseCase()
 
     const workspace_id = request.user.workspace_id
 
@@ -30,15 +31,13 @@ export async function createCustomerController(
       return reply.status(400).send({ message: 'Resource not found.' })
     }
 
-    const { customer } = await createCustomerUseCase.execute({
-      name,
-      email,
-      address,
-      phone,
+    const { order } = await createOrderUseCase.execute({
+      customer_id,
       workspace_id,
+      items,
     })
 
-    return reply.status(201).send({ customer })
+    return reply.status(201).send({ order })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })

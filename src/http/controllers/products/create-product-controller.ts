@@ -26,10 +26,12 @@ export async function createProductController(
       return reply.status(400).send({ message: 'Resource not found.' })
     }
 
-    await createProductUseCase.execute({
+    const { product } = await createProductUseCase.execute({
       ...data,
       workspace_id,
     })
+
+    return reply.status(201).send({ product })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })
@@ -37,6 +39,4 @@ export async function createProductController(
 
     throw err
   }
-
-  return reply.status(201).send()
 }
