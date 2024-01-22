@@ -13,14 +13,13 @@ describe('Create Product (e2e)', () => {
     const { token } = await CreateAndAuthenticateUserAndCreateWorkspace(app)
 
     const response = await request(app.server)
-      .post('/products')
+      .post('/customers')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        name: 'product example',
-        category: 'example',
-        description: 'example example',
-        cost_price: 99.99,
-        retail_price: 199.99,
+        name: 'Customer',
+        email: 'customer@example.com',
+        address: 'Example st, 123',
+        phone: '12345678',
       })
 
     expect(response.statusCode).toEqual(201)

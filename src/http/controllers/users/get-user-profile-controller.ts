@@ -13,7 +13,9 @@ export async function GetUserProfileController(
   })
 
   return reply.status(200).send({
-    ...user,
-    password_hash: undefined,
+    user: {
+      ...user,
+      password_hash: undefined,
+    },
   })
 }

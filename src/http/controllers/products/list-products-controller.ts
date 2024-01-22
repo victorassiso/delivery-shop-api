@@ -8,15 +8,13 @@ export async function listProductsController(
 ) {
   const workspace_id = request.user.workspace_id
 
-  console.log(request.user)
-
   if (!workspace_id) {
     return reply.status(400).send({ message: 'Resource not found.' })
   }
 
   const listProductsUseCase = makeListProductsUseCase()
 
-  const products = await listProductsUseCase.execute({
+  const { products } = await listProductsUseCase.execute({
     workspace_id,
   })
 

@@ -16,5 +16,5 @@ export async function getWorkspaceController(
     id: request.user.workspace_id,
   })
 
-  return reply.status(200).send(workspace)
+  return reply.status(200).send({ workspace })
 }

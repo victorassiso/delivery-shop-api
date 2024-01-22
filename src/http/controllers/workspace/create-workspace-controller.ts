@@ -48,7 +48,6 @@ export async function createWorkspaceController(
         },
       },
     )
-    console.log({ workspace_id: user.workspace_id })
 
     return reply
       .setCookie('refreshToken', refreshToken, {

@@ -58,7 +58,7 @@ export async function joinInWorkspaceController(
         sameSite: 'none',
         httpOnly: true,
       })
-      .status(201)
+      .status(200)
       .send({ token })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
