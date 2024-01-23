@@ -11,29 +11,29 @@ export async function createOrderController(
   reply: FastifyReply,
 ) {
   const createOrderBodySchema = z.object({
-    customer_id: z.string(),
+    customerId: z.string(),
     items: z.array(
       z.object({
-        product_id: z.string(),
+        productId: z.string(),
         quantity: z.number(),
       }),
     ),
   })
 
-  const { customer_id, items } = createOrderBodySchema.parse(request.body)
+  const { customerId, items } = createOrderBodySchema.parse(request.body)
 
   try {
     const createOrderUseCase = makeCreateOrderUseCase()
 
-    const workspace_id = request.user.workspace_id
+    const workspaceId = request.user.workspaceId
 
-    if (!workspace_id) {
+    if (!workspaceId) {
       return reply.status(400).send({ message: 'Resource not found.' })
     }
 
     const { order } = await createOrderUseCase.execute({
-      customer_id,
-      workspace_id,
+      customerId,
+      workspaceId,
       items,
     })
 

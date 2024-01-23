@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 
 import {
+  CustomersQueryParams,
   CustomersRepository,
   FindByEmailProps,
   FindByPhoneProps,
@@ -27,25 +28,49 @@ export class PrismaCustomersRepository implements CustomersRepository {
     return customer
   }
 
-  async findByPhone({ phone, workspace_id }: FindByPhoneProps) {
+  async findByPhone({ phone, workspaceId }: FindByPhoneProps) {
     const customer = await prisma.customer.findFirst({
       where: {
         phone,
-        workspace_id,
+        workspaceId,
       },
     })
 
     return customer
   }
 
-  async findByEmail({ email, workspace_id }: FindByEmailProps) {
+  async findByEmail({ email, workspaceId }: FindByEmailProps) {
     const customer = await prisma.customer.findFirst({
       where: {
         email,
-        workspace_id,
+        workspaceId,
       },
     })
 
     return customer
+  }
+
+  async query(data: CustomersQueryParams) {
+    const customers = await prisma.customer.findMany({
+      where: {
+        id: {
+          contains: data.id,
+        },
+        name: {
+          contains: data.name,
+        },
+        email: {
+          contains: data.email,
+        },
+        phone: {
+          contains: data.phone,
+        },
+        address: {
+          contains: data.address,
+        },
+      },
+    })
+
+    return customers
   }
 }

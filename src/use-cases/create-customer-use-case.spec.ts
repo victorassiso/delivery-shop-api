@@ -45,12 +45,12 @@ describe('Create Customer Use Case', () => {
     const { workspace } = await createWorkspaceUseCase.execute({
       name: 'Workspace',
       code: 'Code',
-      user_id: user.id,
+      userId: user.id,
     })
 
     const { customer } = await sut.execute({
       name: 'John Doe',
-      workspace_id: workspace.id,
+      workspaceId: workspace.id,
       phone: '12345678',
       email: 'john.doe@example.com',
       address: 'example st',
@@ -69,12 +69,12 @@ describe('Create Customer Use Case', () => {
     const { workspace } = await createWorkspaceUseCase.execute({
       name: 'Workspace',
       code: 'Code',
-      user_id: user.id,
+      userId: user.id,
     })
 
     await sut.execute({
       name: 'John Doe 1',
-      workspace_id: workspace.id,
+      workspaceId: workspace.id,
       phone: '12345678',
       email: 'john.doe1@example.com',
       address: 'example st 1',
@@ -83,7 +83,7 @@ describe('Create Customer Use Case', () => {
     await expect(() =>
       sut.execute({
         name: 'John Doe 2',
-        workspace_id: workspace.id,
+        workspaceId: workspace.id,
         phone: '12345678',
         email: 'john.doe2@example.com',
         address: 'example st 2',
@@ -101,12 +101,12 @@ describe('Create Customer Use Case', () => {
     const { workspace } = await createWorkspaceUseCase.execute({
       name: 'Workspace',
       code: 'Code',
-      user_id: user.id,
+      userId: user.id,
     })
 
     await sut.execute({
       name: 'John Doe 1',
-      workspace_id: workspace.id,
+      workspaceId: workspace.id,
       phone: '12345678',
       email: 'john.doe@example.com',
       address: 'example st 1',
@@ -115,7 +115,7 @@ describe('Create Customer Use Case', () => {
     await expect(() =>
       sut.execute({
         name: 'John Doe 2',
-        workspace_id: workspace.id,
+        workspaceId: workspace.id,
         phone: '87654321',
         email: 'john.doe@example.com',
         address: 'example st 2',
@@ -127,7 +127,7 @@ describe('Create Customer Use Case', () => {
     await expect(() =>
       sut.execute({
         name: 'John Doe',
-        workspace_id: 'wrong',
+        workspaceId: 'wrong',
         phone: '12345678',
         email: 'john.doe@example.com',
         address: 'example st',

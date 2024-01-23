@@ -36,7 +36,7 @@ describe('Join in Workspace Use Case', () => {
     const createWorkspaceResponse = await createWorkspaceUseCase.execute({
       name: "John Doe 1's",
       code: 'John-Does-1-workspace-code',
-      user_id: createUser1Response.user.id,
+      userId: createUser1Response.user.id,
     })
 
     const createUser2Response = await createUserUseCase.execute({
@@ -46,11 +46,11 @@ describe('Join in Workspace Use Case', () => {
     })
 
     const { user: user2 } = await sut.execute({
-      user_id: createUser2Response.user.id,
-      workspace_code: 'John-Does-1-workspace-code',
+      userId: createUser2Response.user.id,
+      workspaceCode: 'John-Does-1-workspace-code',
     })
 
-    expect(user2?.workspace_id).toEqual(createWorkspaceResponse.workspace.id)
+    expect(user2?.workspaceId).toEqual(createWorkspaceResponse.workspace.id)
   })
 
   it('should not be able to join in a workspace that does not exists', async () => {
@@ -63,7 +63,7 @@ describe('Join in Workspace Use Case', () => {
     await createWorkspaceUseCase.execute({
       name: "John Doe 1's",
       code: 'John-Does-1-workspace-code',
-      user_id: createUser1Response.user.id,
+      userId: createUser1Response.user.id,
     })
 
     const createUser2Response = await createUserUseCase.execute({
@@ -74,8 +74,8 @@ describe('Join in Workspace Use Case', () => {
 
     await expect(() =>
       sut.execute({
-        user_id: createUser2Response.user.id,
-        workspace_code: 'wrong-code',
+        userId: createUser2Response.user.id,
+        workspaceCode: 'wrong-code',
       }),
     ).rejects.toBeInstanceOf(WorkspaceNotFoundError)
   })

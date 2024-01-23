@@ -9,9 +9,8 @@ interface CreateProductUseCaseRequest {
   name: string
   category: string
   description?: string | null
-  cost_price: number
-  retail_price: number
-  workspace_id: string
+  price: number
+  workspaceId: string
 }
 
 interface CreateProductUseCaseReply {
@@ -28,12 +27,11 @@ export class CreateProductUseCase {
     name,
     category,
     description,
-    cost_price,
-    retail_price,
-    workspace_id,
+    price,
+    workspaceId,
   }: CreateProductUseCaseRequest): Promise<CreateProductUseCaseReply> {
     // Validate Workspace Id
-    const workspace = await this.workspacesRepository.findById(workspace_id)
+    const workspace = await this.workspacesRepository.findById(workspaceId)
 
     if (!workspace) {
       throw new ResourceNotFoundError()
@@ -44,9 +42,8 @@ export class CreateProductUseCase {
       name,
       category,
       description,
-      cost_price,
-      retail_price,
-      workspace_id,
+      price,
+      workspaceId,
     })
 
     return { product }

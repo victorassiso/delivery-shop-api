@@ -3,8 +3,8 @@ import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 
 import {
-  GetOrderInput,
   OrderDetails,
+  OrdersQueryParams,
   OrdersRepository,
   UpdateStatusInput,
 } from '../orders-repository'
@@ -35,14 +35,19 @@ export class PrismaOrdersRepository implements OrdersRepository {
     return order
   }
 
-  async findMany({ workspace_id, customerName, status }: GetOrderInput) {
+  async query(data: OrdersQueryParams) {
     const orders = await prisma.order.findMany({
       where: {
-        workspace_id,
-        customer: {
-          name: customerName,
+        workspaceId: data.workspaceId,
+        id: {
+          contains: data.orderId,
         },
-        status,
+        customer: {
+          name: {
+            contains: data.customerName,
+          },
+        },
+        status: data.status,
       },
       include: {
         customer: {
@@ -52,7 +57,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
         },
       },
       orderBy: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
     })
 
@@ -81,7 +86,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
         id: true,
         status: true,
         total: true,
-        created_at: true,
+        createdAt: true,
         customer: {
           select: {
             name: true,
@@ -89,7 +94,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
             phone: true,
           },
         },
-        orderItem: {
+        orderItems: {
           select: {
             id: true,
             price: true,

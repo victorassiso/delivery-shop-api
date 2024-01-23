@@ -29,7 +29,7 @@ export class AuthenticateUserUseCase {
     }
 
     // Compare password with password_hash
-    const isPasswordValid = await compare(password, user.password_hash)
+    const isPasswordValid = await compare(password, user.passwordHash)
 
     if (!isPasswordValid) {
       throw new InvalidCredentialsError()

@@ -49,20 +49,19 @@ describe('List Products Use Case', () => {
       await createWorkspaceUseCase.execute({
         name: "John Doe's",
         code: 'John-Does-unique-code',
-        user_id: createUserResponse.user.id,
+        userId: createUserResponse.user.id,
       })
 
     await createProductUseCase.execute({
       name: 'Example',
       category: 'Examples',
       description: 'This is an example',
-      cost_price: 99.99,
-      retail_price: 199.99,
-      workspace_id: createdWorkspace.id,
+      price: 199.99,
+      workspaceId: createdWorkspace.id,
     })
 
     const { products } = await sut.execute({
-      workspace_id: createdWorkspace.id,
+      workspaceId: createdWorkspace.id,
     })
 
     expect(Array.isArray(products)).toBe(true)

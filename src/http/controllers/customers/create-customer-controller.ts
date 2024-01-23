@@ -24,9 +24,9 @@ export async function createCustomerController(
   try {
     const createCustomerUseCase = makeCreateCustomerUseCase()
 
-    const workspace_id = request.user.workspace_id
+    const workspaceId = request.user.workspaceId
 
-    if (!workspace_id) {
+    if (!workspaceId) {
       return reply.status(400).send({ message: 'Resource not found.' })
     }
 
@@ -35,7 +35,7 @@ export async function createCustomerController(
       email,
       address,
       phone,
-      workspace_id,
+      workspaceId,
     })
 
     return reply.status(201).send({ customer })

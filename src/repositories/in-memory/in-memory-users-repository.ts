@@ -6,18 +6,18 @@ export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
 
   async create(data: Prisma.UserCreateInput) {
-    const { name, email, password_hash } = data
+    const { name, email, passwordHash } = data
     const now = new Date()
 
     const user = {
       id: 'user-1',
       name,
       email,
-      password_hash,
+      passwordHash,
       role: null,
-      workspace_id: null,
-      created_at: now,
-      updated_at: now,
+      workspaceId: null,
+      createdAt: now,
+      updatedAt: now,
     }
 
     this.items.push(user)
@@ -45,12 +45,12 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
-  async updateWorkspaceId({ user_id, workspace_id }: UpdateWorkspaceId) {
+  async updateWorkspaceId({ userId, workspaceId }: UpdateWorkspaceId) {
     let user: User | null = null
 
     this.items.map((item) => {
-      if (item.id === user_id) {
-        user = { ...item, workspace_id }
+      if (item.id === userId) {
+        user = { ...item, workspaceId }
         return user
       } else {
         return item

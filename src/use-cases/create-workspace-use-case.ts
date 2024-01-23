@@ -9,7 +9,7 @@ import { WorkspaceAlreadyExistsError } from './errors/workspace-already-exists-e
 interface CreateWorkspaceUseCaseRequest {
   name: string
   code: string
-  user_id: string
+  userId: string
 }
 
 interface CreateWorkspaceUseCaseResponse {
@@ -26,7 +26,7 @@ export class CreateWorkspaceUseCase {
   async execute({
     name,
     code,
-    user_id,
+    userId,
   }: CreateWorkspaceUseCaseRequest): Promise<CreateWorkspaceUseCaseResponse> {
     // Validate Workspace Unique Code
     const workspaceWithTheSameCode =
@@ -37,7 +37,7 @@ export class CreateWorkspaceUseCase {
     }
 
     // Find User by Id
-    const user = await this.usersRepository.findById(user_id)
+    const user = await this.usersRepository.findById(userId)
 
     if (!user) {
       throw new ResourceNotFoundError()
@@ -51,8 +51,8 @@ export class CreateWorkspaceUseCase {
 
     // Update User's Workspace Id
     const updatedUser = await this.usersRepository.updateWorkspaceId({
-      user_id,
-      workspace_id: workspace.id,
+      userId,
+      workspaceId: workspace.id,
     })
 
     if (!updatedUser) {

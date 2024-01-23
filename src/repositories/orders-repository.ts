@@ -1,12 +1,13 @@
 import { Order, OrderStatus, Prisma } from '@prisma/client'
 
-export interface GetOrderInput {
-  workspace_id: string
+export interface OrdersQueryParams {
+  workspaceId: string
+  orderId?: string
   customerName?: string
   status?: OrderStatus
 }
 
-export interface GetOrderResponse extends Order {
+export interface OrdersQueryResponse extends Order {
   customer: {
     name: string
   }
@@ -21,13 +22,13 @@ export interface OrderDetails {
   id: string
   status: OrderStatus
   total: number
-  created_at: Date
+  createdAt: Date
   customer: {
     name: string
     email: string
     phone: string
   }
-  orderItem: {
+  orderItems: {
     id: string
     price: number
     quantity: number
@@ -38,8 +39,8 @@ export interface OrderDetails {
 }
 export interface OrdersRepository {
   create(data: Prisma.OrderUncheckedCreateInput): Promise<Order>
-  findById(id: string): Promise<GetOrderResponse | null>
-  findMany(params: GetOrderInput): Promise<GetOrderResponse[]>
+  findById(id: string): Promise<Order | null>
+  query(data: OrdersQueryParams): Promise<OrdersQueryResponse[]>
   updateStatus({ id, status }: UpdateStatusInput): Promise<Order | null>
   getOrderDetails(id: string): Promise<OrderDetails | null>
 }

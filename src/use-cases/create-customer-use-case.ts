@@ -9,7 +9,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface CreateCustomerUseCaseRequest {
   name: string
-  workspace_id: string
+  workspaceId: string
   phone: string
   email: string
   address: string
@@ -27,13 +27,13 @@ export class CreateCustomerUseCase {
 
   async execute({
     name,
-    workspace_id,
+    workspaceId,
     phone,
     email,
     address,
   }: CreateCustomerUseCaseRequest): Promise<CreateCustomerUseCaseReply> {
     // Validate Workspace
-    const workspace = await this.workspacesRepository.findById(workspace_id)
+    const workspace = await this.workspacesRepository.findById(workspaceId)
 
     if (!workspace) {
       throw new ResourceNotFoundError()
@@ -42,7 +42,7 @@ export class CreateCustomerUseCase {
     // Validate Phone
     const samePhone = await this.customersRepository.findByPhone({
       phone,
-      workspace_id,
+      workspaceId,
     })
 
     if (samePhone) {
@@ -52,7 +52,7 @@ export class CreateCustomerUseCase {
     // Validate Email
     const sameEmail = await this.customersRepository.findByEmail({
       email,
-      workspace_id,
+      workspaceId,
     })
 
     if (sameEmail) {
@@ -62,7 +62,7 @@ export class CreateCustomerUseCase {
     // Create Customer
     const customer = await this.customersRepository.create({
       name,
-      workspace_id,
+      workspaceId,
       phone,
       email,
       address,

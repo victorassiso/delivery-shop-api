@@ -1,10 +1,9 @@
 import { OrderStatus } from '@prisma/client'
 
-import {
-  GetOrderResponse,
-  OrdersRepository,
-} from '@/repositories/orders-repository'
+import { OrdersRepository } from '@/repositories/orders-repository'
 import { WorkspacesRepository } from '@/repositories/workspaces-repository'
+
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface OrderResponse {
   orderId: string
@@ -15,7 +14,7 @@ interface OrderResponse {
 }
 
 export interface GetOrdersUseCaseRequest {
-  workspace_id: string
+  workspaceId: string
   pageIndex?: number
   orderId?: string
   customerName?: string
@@ -38,33 +37,29 @@ export class GetOrdersUseCase {
   ) {}
 
   async execute({
-    workspace_id,
+    workspaceId,
     pageIndex,
     orderId,
     customerName,
     status,
   }: GetOrdersUseCaseRequest): Promise<GetOrdersUseCaseResponse> {
-    let orders: GetOrderResponse[]
+    const workspace = await this.workspacesRepository.findById(workspaceId)
 
-    if (orderId) {
-      const order = await this.ordersRepository.findById(orderId)
-      if (order) {
-        orders = [order]
-      } else {
-        orders = []
-      }
-    } else {
-      orders = await this.ordersRepository.findMany({
-        workspace_id,
-        customerName,
-        status,
-      })
+    if (!workspace) {
+      throw new ResourceNotFoundError()
     }
+
+    const orders = await this.ordersRepository.query({
+      workspaceId,
+      orderId,
+      customerName,
+      status,
+    })
 
     const formatedOrders: OrderResponse[] = orders.map((item) => {
       return {
         orderId: item.id,
-        createdAt: item.created_at,
+        createdAt: item.createdAt,
         status: item.status,
         customerName: item.customer.name,
         total: item.total,

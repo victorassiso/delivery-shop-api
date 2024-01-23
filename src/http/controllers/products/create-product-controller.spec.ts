@@ -19,8 +19,7 @@ describe('Create Product (e2e)', () => {
         name: 'product example',
         category: 'example',
         description: 'example example',
-        cost_price: 99.99,
-        retail_price: 199.99,
+        price: 199.99,
       })
 
     expect(response.statusCode).toEqual(201)

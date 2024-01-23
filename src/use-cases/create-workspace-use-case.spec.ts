@@ -30,11 +30,11 @@ describe('Create Workspace Use Case', () => {
     const { workspace, user } = await sut.execute({
       name: "John Doe's",
       code: 'John-Does-unique-code',
-      user_id: createUserResponse.user.id,
+      userId: createUserResponse.user.id,
     })
 
     expect(workspace.id).toEqual(expect.any(String))
-    expect(user.workspace_id).toEqual(workspace.id)
+    expect(user.workspaceId).toEqual(workspace.id)
   })
 
   it('should not be able to create a workspace with a workspace code that is already in use', async () => {
@@ -47,14 +47,14 @@ describe('Create Workspace Use Case', () => {
     await sut.execute({
       name: "John Doe's",
       code: 'John-Does-unique-code',
-      user_id: createUserResponse.user.id,
+      userId: createUserResponse.user.id,
     })
 
     await expect(() =>
       sut.execute({
         name: "John Doe's",
         code: 'John-Does-unique-code',
-        user_id: createUserResponse.user.id,
+        userId: createUserResponse.user.id,
       }),
     ).rejects.toBeInstanceOf(WorkspaceAlreadyExistsError)
   })

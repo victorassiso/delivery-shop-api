@@ -39,7 +39,7 @@ describe('Update Workspace Use Case', () => {
       await createWorkspaceUseCase.execute({
         name: "John Doe's",
         code: 'John-Does-unique-code',
-        user_id: createUserResponse.user.id,
+        userId: createUserResponse.user.id,
       })
 
     const { workspace: updatedWorkspace } = await sut.execute({
@@ -64,7 +64,7 @@ describe('Update Workspace Use Case', () => {
       await createWorkspaceUseCase.execute({
         name: "John Doe's",
         code: 'John-Does-unique-code',
-        user_id: createUserResponse.user.id,
+        userId: createUserResponse.user.id,
       })
 
     await sut.execute({

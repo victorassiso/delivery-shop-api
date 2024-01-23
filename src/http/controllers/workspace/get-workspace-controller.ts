@@ -8,12 +8,12 @@ export async function getWorkspaceController(
 ) {
   const getWorkspaceUseCase = makeGetWorkspaceUseCase()
 
-  if (!request.user.workspace_id) {
+  if (!request.user.workspaceId) {
     return reply.status(400).send({ message: 'Resource not found.' })
   }
 
   const { workspace } = await getWorkspaceUseCase.execute({
-    id: request.user.workspace_id,
+    id: request.user.workspaceId,
   })
 
   return reply.status(200).send({ workspace })

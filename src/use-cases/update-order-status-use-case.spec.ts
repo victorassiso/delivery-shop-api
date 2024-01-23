@@ -80,45 +80,43 @@ describe('Update Order Status Use Case', () => {
     const { workspace } = await createWorkspaceUseCase.execute({
       name: 'Workspace',
       code: 'Code',
-      user_id: user.id,
+      userId: user.id,
     })
 
     const { customer } = await createCustomerUseCase.execute({
       name: 'John Doe',
-      workspace_id: workspace.id,
+      workspaceId: workspace.id,
       phone: '12345678',
       email: 'john.doe@example.com',
       address: 'example st',
     })
 
-    const { product: product_1 } = await createProductUseCase.execute({
+    const { product: product1 } = await createProductUseCase.execute({
       name: 'Example name 1',
       category: 'Example category 1',
       description: 'This is an example 1',
-      cost_price: 9.99,
-      retail_price: 99.99,
-      workspace_id: workspace.id,
+      price: 99.99,
+      workspaceId: workspace.id,
     })
 
-    const { product: product_2 } = await createProductUseCase.execute({
+    const { product: product2 } = await createProductUseCase.execute({
       name: 'Example name 2',
       category: 'Example category 2',
       description: 'This is an example 2',
-      cost_price: 8.88,
-      retail_price: 88.88,
-      workspace_id: workspace.id,
+      price: 88.88,
+      workspaceId: workspace.id,
     })
 
     const createOrderResponse = await createOrderUseCase.execute({
-      customer_id: customer.id,
-      workspace_id: workspace.id,
+      customerId: customer.id,
+      workspaceId: workspace.id,
       items: [
         {
-          product_id: product_1.id,
+          productId: product1.id,
           quantity: 2,
         },
         {
-          product_id: product_2.id,
+          productId: product2.id,
           quantity: 4,
         },
       ],

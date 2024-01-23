@@ -33,13 +33,13 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async updateWorkspaceId({ user_id, workspace_id }: UpdateWorkspaceId) {
+  async updateWorkspaceId({ userId, workspaceId }: UpdateWorkspaceId) {
     const user = await prisma.user.update({
       where: {
-        id: user_id,
+        id: userId,
       },
       data: {
-        workspace_id,
+        workspaceId,
       },
     })
 

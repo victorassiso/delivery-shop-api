@@ -13,10 +13,10 @@ export class PrismaOrderItemsRepository implements OrderItemsRepository {
     return orderItem
   }
 
-  async findByOrderId(order_id: string) {
+  async findByOrderId(orderId: string) {
     const orderItems = await prisma.orderItem.findMany({
       where: {
-        order_id,
+        orderId,
       },
     })
 

@@ -39,6 +39,7 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+
 app.register(userRoutes)
 app.register(productRoutes)
 app.register(workspaceRoutes)

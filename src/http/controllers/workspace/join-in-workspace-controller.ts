@@ -18,8 +18,8 @@ export async function joinInWorkspaceController(
     const joinInWorkspaceUseCase = makeJoinInWorkspaceUseCase()
 
     const { user } = await joinInWorkspaceUseCase.execute({
-      user_id: request.user.sub,
-      workspace_code: code,
+      userId: request.user.sub,
+      workspaceCode: code,
     })
 
     if (!user) {
@@ -29,7 +29,7 @@ export async function joinInWorkspaceController(
     const token = await reply.jwtSign(
       {
         role: user.role,
-        workspace_id: user.workspace_id,
+        workspaceId: user.workspaceId,
       },
       {
         sign: {
@@ -41,7 +41,7 @@ export async function joinInWorkspaceController(
     const refreshToken = await reply.jwtSign(
       {
         role: user.role,
-        workspace_id: user.workspace_id,
+        workspaceId: user.workspaceId,
       },
       {
         sign: {

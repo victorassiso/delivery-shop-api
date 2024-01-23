@@ -42,16 +42,15 @@ describe('Create Product Use Case', () => {
     const { workspace } = await createWorkspaceUseCase.execute({
       name: "John Doe's",
       code: 'John-Does-unique-code',
-      user_id: user.id,
+      userId: user.id,
     })
 
     const { product } = await sut.execute({
       name: 'Example name',
       category: 'Example category',
       description: 'This is an example',
-      cost_price: 9.99,
-      retail_price: 9.99,
-      workspace_id: workspace.id,
+      price: 9.99,
+      workspaceId: workspace.id,
     })
 
     expect(product.id).toEqual(expect.any(String))

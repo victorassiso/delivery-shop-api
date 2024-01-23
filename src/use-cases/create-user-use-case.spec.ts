@@ -52,7 +52,7 @@ describe('Create User Use Case', () => {
 
     const isPasswordCorrectlyHashed = await compare(
       userProps.password,
-      user.password_hash,
+      user.passwordHash,
     )
 
     expect(isPasswordCorrectlyHashed).toBe(true)

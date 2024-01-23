@@ -9,13 +9,13 @@ import { WorkspacesRepository } from '@/repositories/workspaces-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface OrderItemCreateInput {
-  product_id: string
+  productId: string
   quantity: number
 }
 
 interface CreateOrderUseCaseRequest {
-  customer_id: string
-  workspace_id: string
+  customerId: string
+  workspaceId: string
   items: OrderItemCreateInput[]
 }
 
@@ -33,19 +33,19 @@ export class CreateOrderUseCase {
   ) {}
 
   async execute({
-    customer_id,
-    workspace_id,
+    customerId,
+    workspaceId,
     items,
   }: CreateOrderUseCaseRequest): Promise<CreateOrderUseCaseReply> {
     // Validate customer
-    const customer = await this.customersRepository.findById(customer_id)
+    const customer = await this.customersRepository.findById(customerId)
 
     if (!customer) {
       throw new ResourceNotFoundError()
     }
 
     // Validate workspace
-    const workspace = await this.workspacesRepository.findById(workspace_id)
+    const workspace = await this.workspacesRepository.findById(workspaceId)
 
     if (!workspace) {
       throw new ResourceNotFoundError()
@@ -54,7 +54,7 @@ export class CreateOrderUseCase {
     // Validate Products
     const itemsWithPrice = await Promise.all(
       items.map(async (item) => {
-        const product = await this.productsRepository.findById(item.product_id)
+        const product = await this.productsRepository.findById(item.productId)
 
         if (!product) {
           throw new ResourceNotFoundError()
@@ -62,7 +62,7 @@ export class CreateOrderUseCase {
 
         return {
           ...item,
-          price: product.retail_price,
+          price: product.price,
         }
       }),
     )
@@ -74,8 +74,8 @@ export class CreateOrderUseCase {
 
     // Create Order
     const order = await this.ordersRepository.create({
-      customer_id,
-      workspace_id,
+      customerId,
+      workspaceId,
       total,
     })
 
@@ -83,11 +83,11 @@ export class CreateOrderUseCase {
     await Promise.all(
       itemsWithPrice.map(async (item) => {
         const orderItem = await this.orderItemsRepository.create({
-          order_id: order.id,
+          orderId: order.id,
           price: item.price,
-          product_id: item.product_id,
+          productId: item.productId,
           quantity: item.quantity,
-          workspace_id,
+          workspaceId,
         })
 
         return orderItem

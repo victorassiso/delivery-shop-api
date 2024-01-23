@@ -14,8 +14,8 @@ export async function getOrderDetailsController(
 
   const { orderId } = getOrdersParamsSchema.parse(request.params)
 
-  const workspace_id = request.user.workspace_id
-  if (!workspace_id) {
+  const workspaceId = request.user.workspaceId
+  if (!workspaceId) {
     return reply.status(400).send({ message: 'Resource not found.' })
   }
 

@@ -1,8 +1,8 @@
 import { Prisma, User } from '@prisma/client'
 
 export interface UpdateWorkspaceId {
-  user_id: string
-  workspace_id: string
+  userId: string
+  workspaceId: string
 }
 export interface UsersRepository {
   create(data: Prisma.UserCreateInput): Promise<User>

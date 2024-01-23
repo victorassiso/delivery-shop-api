@@ -2,6 +2,7 @@ import { Customer, Prisma } from '@prisma/client'
 import { randomUUID } from 'crypto'
 
 import {
+  CustomersQueryParams,
   CustomersRepository,
   FindByEmailProps,
   FindByPhoneProps,
@@ -11,18 +12,18 @@ export class InMemoryCustomersRepository implements CustomersRepository {
   public items: Customer[] = []
 
   async create(data: Prisma.CustomerUncheckedCreateInput) {
-    const { workspace_id, name, phone, email, address } = data
+    const { workspaceId, name, phone, email, address } = data
 
     const now = new Date()
     const customer: Customer = {
       id: randomUUID(),
-      workspace_id,
+      workspaceId,
       name,
       phone,
       email,
       address,
-      created_at: now,
-      updated_at: now,
+      createdAt: now,
+      updatedAt: now,
     }
 
     this.items.push(customer)
@@ -40,9 +41,9 @@ export class InMemoryCustomersRepository implements CustomersRepository {
     return customer
   }
 
-  async findByPhone({ phone, workspace_id }: FindByPhoneProps) {
+  async findByPhone({ phone, workspaceId }: FindByPhoneProps) {
     const customer = this.items.find(
-      (item) => item.phone === phone && item.workspace_id === workspace_id,
+      (item) => item.phone === phone && item.workspaceId === workspaceId,
     )
 
     if (!customer) {
@@ -52,9 +53,9 @@ export class InMemoryCustomersRepository implements CustomersRepository {
     return customer
   }
 
-  async findByEmail({ email, workspace_id }: FindByEmailProps) {
+  async findByEmail({ email, workspaceId }: FindByEmailProps) {
     const customer = this.items.find(
-      (item) => item.email === email && item.workspace_id === workspace_id,
+      (item) => item.email === email && item.workspaceId === workspaceId,
     )
 
     if (!customer) {
@@ -62,5 +63,12 @@ export class InMemoryCustomersRepository implements CustomersRepository {
     }
 
     return customer
+  }
+
+  // TODO:
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async query(data: CustomersQueryParams) {
+    throw new Error('Not implemented yet')
+    return this.items
   }
 }

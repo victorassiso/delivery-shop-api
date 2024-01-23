@@ -6,16 +6,16 @@ export async function listProductsController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const workspace_id = request.user.workspace_id
+  const workspaceId = request.user.workspaceId
 
-  if (!workspace_id) {
+  if (!workspaceId) {
     return reply.status(400).send({ message: 'Resource not found.' })
   }
 
   const listProductsUseCase = makeListProductsUseCase()
 
   const { products } = await listProductsUseCase.execute({
-    workspace_id,
+    workspaceId,
   })
 
   return reply.status(200).send({ products })

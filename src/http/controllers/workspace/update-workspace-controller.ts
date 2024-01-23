@@ -18,12 +18,12 @@ export async function updateWorkspaceController(
   try {
     const updateWorkspaceUseCase = makeUpdateWorkspaceUseCase()
 
-    if (!request.user.workspace_id) {
+    if (!request.user.workspaceId) {
       throw new ResourceNotFoundError()
     }
 
     await updateWorkspaceUseCase.execute({
-      id: request.user.workspace_id,
+      id: request.user.workspaceId,
       name,
       code,
     })

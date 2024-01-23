@@ -12,23 +12,22 @@ export async function createProductController(
     name: z.string().min(1),
     category: z.string().min(1),
     description: z.string().nullable(),
-    cost_price: z.number(),
-    retail_price: z.number(),
+    price: z.number(),
   })
 
   const data = createProductBodySchema.parse(request.body)
   try {
     const createProductUseCase = makeCreateProductUseCase()
 
-    const workspace_id = request.user.workspace_id
+    const workspaceId = request.user.workspaceId
 
-    if (!workspace_id) {
+    if (!workspaceId) {
       return reply.status(400).send({ message: 'Resource not found.' })
     }
 
     const { product } = await createProductUseCase.execute({
       ...data,
-      workspace_id,
+      workspaceId,
     })
 
     return reply.status(201).send({ product })

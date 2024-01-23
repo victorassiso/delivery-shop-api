@@ -16,8 +16,8 @@ export class InMemoryWorkspacesRepository implements WorkspacesRepository {
       id: 'workspace-1',
       name,
       code,
-      created_at: now,
-      updated_at: now,
+      createdAt: now,
+      updatedAt: now,
     }
 
     this.items.push(workspace)

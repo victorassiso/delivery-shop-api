@@ -20,8 +20,8 @@ export async function getOrdersController(
   const { pageIndex, orderId, customerName, status } =
     getOrdersParamsSchema.parse(request.query)
 
-  const workspace_id = request.user.workspace_id
-  if (!workspace_id) {
+  const workspaceId = request.user.workspaceId
+  if (!workspaceId) {
     return reply.status(400).send({ message: 'Resource not found.' })
   }
 
@@ -29,7 +29,7 @@ export async function getOrdersController(
     const getOrdersUseCase = makeGetOrdersUseCase()
 
     const { orders, meta } = await getOrdersUseCase.execute({
-      workspace_id,
+      workspaceId,
       pageIndex,
       orderId,
       customerName,

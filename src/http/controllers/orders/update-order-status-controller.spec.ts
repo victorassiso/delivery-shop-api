@@ -19,8 +19,7 @@ describe('Update Order Status Order (e2e)', () => {
         name: 'product example 1',
         category: 'example 1',
         description: 'example example 1',
-        cost_price: 9.99,
-        retail_price: 99.99,
+        price: 99.99,
       })
 
     const createSecondProductResponse = await request(app.server)
@@ -30,8 +29,7 @@ describe('Update Order Status Order (e2e)', () => {
         name: 'product example 2',
         category: 'example 2',
         description: 'example example 2',
-        cost_price: 8.88,
-        retail_price: 88.88,
+        price: 88.88,
       })
 
     const createCustomerResponse = await request(app.server)
@@ -48,14 +46,14 @@ describe('Update Order Status Order (e2e)', () => {
       .post('/orders')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        customer_id: createCustomerResponse.body.customer.id,
+        customerId: createCustomerResponse.body.customer.id,
         items: [
           {
-            product_id: createFirstProductResponse.body.product.id,
+            productId: createFirstProductResponse.body.product.id,
             quantity: 3,
           },
           {
-            product_id: createSecondProductResponse.body.product.id,
+            productId: createSecondProductResponse.body.product.id,
             quantity: 5,
           },
         ],

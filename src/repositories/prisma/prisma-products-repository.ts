@@ -13,10 +13,10 @@ export class PrismaProductsRepository implements ProductsRepository {
     return product
   }
 
-  async list(workspace_id: string) {
+  async list(workspaceId: string) {
     const products = await prisma.product.findMany({
       where: {
-        workspace_id,
+        workspaceId,
       },
     })
 

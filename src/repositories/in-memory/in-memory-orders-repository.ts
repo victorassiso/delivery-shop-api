@@ -3,8 +3,9 @@ import { randomUUID } from 'node:crypto'
 import { Customer, Order, Prisma } from '@prisma/client'
 
 import {
-  GetOrderInput,
-  GetOrderResponse,
+  OrderDetails,
+  OrdersQueryParams,
+  OrdersQueryResponse,
   OrdersRepository,
   UpdateStatusInput,
 } from '../orders-repository'
@@ -14,60 +15,60 @@ export class InMemoryOrdersRepository implements OrdersRepository {
   public customers: Customer[] = [
     {
       id: '1',
-      workspace_id: 'w1',
+      workspaceId: 'w1',
       name: 'Name 1',
       phone: 'Phone 1',
       email: 'Email 1',
       address: 'Address 1',
-      created_at: new Date(
+      createdAt: new Date(
         'Sun Jan 21 2024 21:17:51 GMT-0300 (Hora padrão de Brasília)',
       ),
-      updated_at: new Date(
+      updatedAt: new Date(
         'Sun Jan 21 2024 21:17:51 GMT-0300 (Hora padrão de Brasília)',
       ),
     },
     {
       id: '2',
-      workspace_id: 'w2',
+      workspaceId: 'w2',
       name: 'Name 2',
       phone: 'Phone 2',
       email: 'Email 2',
       address: 'Address 2',
-      created_at: new Date(
+      createdAt: new Date(
         'Sun Jan 21 2024 18:17:51 GMT-0300 (Hora padrão de Brasília)',
       ),
-      updated_at: new Date(
+      updatedAt: new Date(
         'Sun Jan 21 2024 18:17:51 GMT-0300 (Hora padrão de Brasília)',
       ),
     },
     {
       id: '3',
-      workspace_id: 'w3',
+      workspaceId: 'w3',
       name: 'Name 3',
       phone: 'Phone 3',
       email: 'Email 3',
       address: 'Address 3',
-      created_at: new Date(
+      createdAt: new Date(
         'Sun Jan 21 2024 15:17:51 GMT-0300 (Hora padrão de Brasília)',
       ),
-      updated_at: new Date(
+      updatedAt: new Date(
         'Sun Jan 21 2024 15:17:51 GMT-0300 (Hora padrão de Brasília)',
       ),
     },
   ]
 
   async create(data: Prisma.OrderUncheckedCreateInput) {
-    const { customer_id, workspace_id, total } = data
+    const { customerId, workspaceId, total } = data
     const now = new Date()
 
     const order: Order = {
       id: randomUUID(),
-      workspace_id,
+      workspaceId,
       total,
-      customer_id,
+      customerId,
       status: 'pending',
-      created_at: now,
-      updated_at: now,
+      createdAt: now,
+      updatedAt: now,
     }
 
     this.items.push(order)
@@ -82,9 +83,7 @@ export class InMemoryOrdersRepository implements OrdersRepository {
       return null
     }
 
-    const customer = this.customers.find(
-      (item) => item.id === order.customer_id,
-    )
+    const customer = this.customers.find((item) => item.id === order.customerId)
 
     return {
       ...order,
@@ -94,13 +93,13 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     }
   }
 
-  async findMany(params: GetOrderInput) {
-    const { workspace_id, customerName, status } = params
+  async query(params: OrdersQueryParams) {
+    const { workspaceId, customerName, status } = params
 
     // Include customer name
-    let orders: GetOrderResponse[] = this.items.map((order) => {
+    let orders: OrdersQueryResponse[] = this.items.map((order) => {
       const customer = this.customers.find(
-        (customer) => customer.id === order.customer_id,
+        (customer) => customer.id === order.customerId,
       )
 
       return {
@@ -110,8 +109,8 @@ export class InMemoryOrdersRepository implements OrdersRepository {
         },
       }
     })
-    // Filter by workspace_id
-    orders = orders.filter((item) => item.workspace_id === workspace_id)
+    // Filter by workspaceId
+    orders = orders.filter((item) => item.workspaceId === workspaceId)
 
     // Filter by customer name
     if (customerName) {
@@ -124,11 +123,11 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     }
 
     // Sort by Date
-    orders.sort((a: GetOrderResponse, b: GetOrderResponse) => {
-      if (a.created_at > b.created_at) {
+    orders.sort((a: OrdersQueryResponse, b: OrdersQueryResponse) => {
+      if (a.createdAt > b.createdAt) {
         return -1
       }
-      if (a.created_at < b.created_at) {
+      if (a.createdAt < b.createdAt) {
         return 1
       }
       return 0
@@ -150,5 +149,37 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     })
 
     return order
+  }
+
+  async getOrderDetails(id: string) {
+    const order = this.items.find((item) => item.id === id)
+
+    if (!order) {
+      return null
+    }
+
+    const orderDetails: OrderDetails = {
+      id: order.id,
+      total: order.total,
+      status: order.status,
+      createdAt: order.createdAt,
+      customer: {
+        name: 'Customer Name',
+        email: 'Customer Email',
+        phone: 'Customer Phone',
+      },
+      orderItems: [
+        {
+          id: '1',
+          price: 9.99,
+          quantity: 2,
+          product: {
+            name: 'Product Name',
+          },
+        },
+      ],
+    }
+
+    return orderDetails
   }
 }
