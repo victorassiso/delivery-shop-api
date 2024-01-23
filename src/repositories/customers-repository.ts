@@ -11,11 +11,13 @@ export interface FindByEmailProps {
 }
 
 export interface CustomersQueryParams {
-  id: string
-  name: string
-  email: string
-  phone: string
-  address: string
+  workspaceId: string
+  pageIndex?: number
+  id?: string
+  name?: string
+  email?: string
+  phone?: string
+  address?: string
 }
 export interface CustomersRepository {
   create(data: Prisma.CustomerUncheckedCreateInput): Promise<Customer>

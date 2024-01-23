@@ -18,6 +18,7 @@ export class PrismaProductsRepository implements ProductsRepository {
       where: {
         workspaceId,
       },
+      orderBy: { createdAt: 'desc' },
     })
 
     return products

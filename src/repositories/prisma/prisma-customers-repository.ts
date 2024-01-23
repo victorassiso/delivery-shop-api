@@ -69,6 +69,9 @@ export class PrismaCustomersRepository implements CustomersRepository {
           contains: data.address,
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     return customers

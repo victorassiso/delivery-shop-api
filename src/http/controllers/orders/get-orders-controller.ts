@@ -8,7 +8,7 @@ export async function getOrdersController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const getOrdersParamsSchema = z.object({
+  const getOrdersQuerySchema = z.object({
     pageIndex: z.coerce.number().optional(),
     orderId: z.string().uuid().optional(),
     customerName: z.string().optional(),
@@ -18,7 +18,7 @@ export async function getOrdersController(
   })
 
   const { pageIndex, orderId, customerName, status } =
-    getOrdersParamsSchema.parse(request.query)
+    getOrdersQuerySchema.parse(request.query)
 
   const workspaceId = request.user.workspaceId
   if (!workspaceId) {
