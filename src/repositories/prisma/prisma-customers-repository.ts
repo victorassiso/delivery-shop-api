@@ -53,6 +53,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
   async query(data: CustomersQueryParams) {
     const customers = await prisma.customer.findMany({
       where: {
+        workspaceId: data.workspaceId,
         id: {
           contains: data.id,
         },
