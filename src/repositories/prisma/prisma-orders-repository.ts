@@ -111,4 +111,163 @@ export class PrismaOrdersRepository implements OrdersRepository {
 
     return order
   }
+
+  async getCurrentMonthOrders(workspaceId: string) {
+    const currentDate = new Date()
+    const startOfCurrentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1,
+    )
+    const endOfCurrentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      1,
+    )
+    console.log({ startOfCurrentMonth })
+    console.log({ endOfCurrentMonth })
+    const orders = await prisma.order.findMany({
+      where: {
+        workspaceId,
+        createdAt: {
+          gte: startOfCurrentMonth,
+          lt: endOfCurrentMonth,
+        },
+      },
+    })
+
+    return orders
+  }
+
+  async getLastMonthOrders(workspaceId: string) {
+    const currentDate = new Date()
+    const startOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1,
+    )
+    const endOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1,
+    )
+
+    const orders = await prisma.order.findMany({
+      where: {
+        workspaceId,
+        createdAt: {
+          gte: startOfLastMonth,
+          lt: endOfLastMonth,
+        },
+      },
+    })
+
+    return orders
+  }
+
+  async getTodayOrders(workspaceId: string) {
+    const currentDate = new Date()
+    const startOftoday = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDay(),
+    )
+    const endOftoday = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDay() + 1,
+    )
+
+    const orders = await prisma.order.findMany({
+      where: {
+        workspaceId,
+        createdAt: {
+          gte: startOftoday,
+          lt: endOftoday,
+        },
+      },
+    })
+
+    return orders
+  }
+
+  async getYesterdayOrders(workspaceId: string) {
+    const currentDate = new Date()
+    const startOfyesterday = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDay() - 1,
+    )
+    const endOfyesterday = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDay(),
+    )
+
+    const orders = await prisma.order.findMany({
+      where: {
+        workspaceId,
+        createdAt: {
+          gte: startOfyesterday,
+          lt: endOfyesterday,
+        },
+      },
+    })
+
+    return orders
+  }
+
+  async getCurrentMonthCanceledOrders(workspaceId: string) {
+    const currentDate = new Date()
+    const startOfCurrentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1,
+    )
+    const endOfCurrentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      1,
+    )
+
+    const orders = await prisma.order.findMany({
+      where: {
+        workspaceId,
+        status: 'canceled',
+        createdAt: {
+          gte: startOfCurrentMonth,
+          lt: endOfCurrentMonth,
+        },
+      },
+    })
+
+    return orders
+  }
+
+  async getLastMonthCanceledOrders(workspaceId: string) {
+    const currentDate = new Date()
+    const startOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1,
+    )
+    const endOfLastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1,
+    )
+
+    const orders = await prisma.order.findMany({
+      where: {
+        workspaceId,
+        status: 'canceled',
+        createdAt: {
+          gte: startOfLastMonth,
+          lt: endOfLastMonth,
+        },
+      },
+    })
+
+    return orders
+  }
 }

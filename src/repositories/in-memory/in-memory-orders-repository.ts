@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { Customer, Order, Prisma } from '@prisma/client'
+import { $Enums, Customer, Order, Prisma } from '@prisma/client'
 
 import {
   OrderDetails,
@@ -181,5 +181,95 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     }
 
     return orderDetails
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCurrentMonthOrders(_workspaceId: string): Promise<
+    {
+      id: string
+      total: number
+      status: $Enums.OrderStatus
+      workspaceId: string
+      customerId: string
+      createdAt: Date
+      updatedAt: Date
+    }[]
+  > {
+    throw new Error('Method not implemented.')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getTodayOrders(_workspaceId: string): Promise<
+    {
+      id: string
+      total: number
+      status: $Enums.OrderStatus
+      workspaceId: string
+      customerId: string
+      createdAt: Date
+      updatedAt: Date
+    }[]
+  > {
+    throw new Error('Method not implemented.')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getLastMonthOrders(_workspaceId: string): Promise<
+    {
+      id: string
+      total: number
+      status: $Enums.OrderStatus
+      workspaceId: string
+      customerId: string
+      createdAt: Date
+      updatedAt: Date
+    }[]
+  > {
+    throw new Error('Method not implemented.')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getYesterdayOrders(_workspaceId: string): Promise<
+    {
+      id: string
+      total: number
+      status: $Enums.OrderStatus
+      workspaceId: string
+      customerId: string
+      createdAt: Date
+      updatedAt: Date
+    }[]
+  > {
+    throw new Error('Method not implemented.')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCurrentMonthCanceledOrders(_workspaceId: string): Promise<
+    {
+      id: string
+      total: number
+      status: $Enums.OrderStatus
+      workspaceId: string
+      customerId: string
+      createdAt: Date
+      updatedAt: Date
+    }[]
+  > {
+    throw new Error('Method not implemented.')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getLastMonthCanceledOrders(_workspaceId: string): Promise<
+    {
+      id: string
+      total: number
+      status: $Enums.OrderStatus
+      workspaceId: string
+      customerId: string
+      createdAt: Date
+      updatedAt: Date
+    }[]
+  > {
+    throw new Error('Method not implemented.')
   }
 }
