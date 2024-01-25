@@ -124,8 +124,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
       currentDate.getMonth() + 1,
       1,
     )
-    console.log({ startOfCurrentMonth })
-    console.log({ endOfCurrentMonth })
+
     const orders = await prisma.order.findMany({
       where: {
         workspaceId,

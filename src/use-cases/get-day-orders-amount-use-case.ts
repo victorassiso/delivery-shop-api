@@ -33,10 +33,13 @@ export class GetDayOrdersAmountUseCase {
 
     const todayOrdersAmount = todayOrders.length
     const yesterdayOrdersAmount = yesterdayOrders.length
-    const amountPercentualDiffFromYesterday = yesterdayOrdersAmount
-      ? 0
-      : todayOrdersAmount / yesterdayOrdersAmount - 1
-
+    const amountPercentualDiffFromYesterday =
+      yesterdayOrdersAmount === 0
+        ? 0
+        : todayOrdersAmount / yesterdayOrdersAmount - 1
+    console.log({ todayOrdersAmount })
+    console.log({ yesterdayOrdersAmount })
+    console.log({ amountPercentualDiffFromYesterday })
     return {
       amount: todayOrdersAmount,
       percentualDiffFromYesterday: amountPercentualDiffFromYesterday,

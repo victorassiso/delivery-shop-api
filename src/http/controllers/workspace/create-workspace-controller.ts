@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { WorkspaceAlreadyExistsError } from '@/use-cases/errors/workspace-already-exists-error'
 import { makeCreateWorkspaceUseCase } from '@/use-cases/factories/make-create-workspace-use-case'
-import { seedDatabase } from '@/utils/seed-database'
+import { seedDatabase } from '@/utils/mock-data/seed-database'
 
 export async function createWorkspaceController(
   request: FastifyRequest,

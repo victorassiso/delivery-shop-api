@@ -35,7 +35,7 @@ export class GetMonthCanceledOrdersAmountUseCase {
     const currentMonthCanceledOrdersAmount = currentMonthCanceledOrders.length
     const lastMonthCanceledOrdersAmount = lastMonthCanceledOrders.length
     const canceledAmountPercentualDiffFromLastMonth =
-      lastMonthCanceledOrdersAmount
+      lastMonthCanceledOrdersAmount === 0
         ? 0
         : currentMonthCanceledOrdersAmount / lastMonthCanceledOrdersAmount - 1
 
