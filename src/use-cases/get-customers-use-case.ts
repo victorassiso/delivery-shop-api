@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Customer } from '@prisma/client'
 
 import { CustomersRepository } from '@/repositories/customers-repository'
@@ -8,6 +9,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 export interface GetCustomersUseCaseRequest {
   workspaceId: string
   pageIndex?: number
+  perPage?: number
   id?: string
   name?: string
   email?: string
@@ -33,6 +35,7 @@ export class GetCustomersUseCase {
   async execute({
     workspaceId,
     pageIndex,
+    perPage,
     id,
     name,
     email,
@@ -47,7 +50,6 @@ export class GetCustomersUseCase {
 
     const customers = await this.customersRepository.query({
       workspaceId,
-      pageIndex,
       id,
       name,
       email,
@@ -55,14 +57,16 @@ export class GetCustomersUseCase {
       address,
     })
 
-    const slicedCustomers: Customer[] = customers.slice(
-      (pageIndex || 0) * 10,
-      (pageIndex || 0) * 10 + 10,
-    )
+    const slicedCustomers: Customer[] = perPage
+      ? customers.slice(
+        (pageIndex || 0) * perPage,
+        (pageIndex || 0) * perPage + 10,
+      )
+      : customers
 
     const meta = {
       pageIndex: pageIndex ?? 0,
-      perPage: 10,
+      perPage: perPage ?? customers.length,
       totalCount: customers.length,
     }
 

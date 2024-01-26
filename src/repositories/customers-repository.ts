@@ -12,7 +12,6 @@ export interface FindByEmailProps {
 
 export interface CustomersQueryParams {
   workspaceId: string
-  pageIndex?: number
   id?: string
   name?: string
   email?: string

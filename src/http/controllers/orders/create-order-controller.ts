@@ -1,8 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-import { EmailAlreadyExistsError } from '@/use-cases/errors/email-already-exists-error'
-import { PhoneAlreadyExistsError } from '@/use-cases/errors/phone-already-exists-error'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 import { makeCreateOrderUseCase } from '@/use-cases/factories/make-create-order-use-case'
 
@@ -19,7 +17,7 @@ export async function createOrderController(
       }),
     ),
   })
-
+  console.log(request.body)
   const { customerId, items } = createOrderBodySchema.parse(request.body)
 
   try {
@@ -41,14 +39,6 @@ export async function createOrderController(
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })
-    }
-
-    if (err instanceof PhoneAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
-    }
-
-    if (err instanceof EmailAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
     }
 
     throw err
