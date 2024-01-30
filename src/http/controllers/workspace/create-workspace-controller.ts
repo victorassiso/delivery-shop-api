@@ -27,40 +27,7 @@ export async function createWorkspaceController(
 
     seedDatabase(workspace)
 
-    const token = await reply.jwtSign(
-      {
-        role: user.role,
-        workspaceId: user.workspaceId,
-      },
-      {
-        sign: {
-          sub: request.user.sub,
-        },
-      },
-    )
-
-    const refreshToken = await reply.jwtSign(
-      {
-        role: user.role,
-        workspaceId: user.workspaceId,
-      },
-      {
-        sign: {
-          sub: request.user.sub,
-          expiresIn: '7d',
-        },
-      },
-    )
-
-    return reply
-      .setCookie('refreshToken', refreshToken, {
-        path: '/',
-        secure: true,
-        sameSite: 'none',
-        httpOnly: true,
-      })
-      .status(201)
-      .send({ token })
+    return reply.status(201).send({ workspaceId: user.id })
   } catch (err) {
     if (err instanceof WorkspaceAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

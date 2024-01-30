@@ -26,40 +26,9 @@ export async function joinInWorkspaceController(
       throw new ResourceNotFoundError()
     }
 
-    const token = await reply.jwtSign(
-      {
-        role: user.role,
-        workspaceId: user.workspaceId,
-      },
-      {
-        sign: {
-          sub: request.user.sub,
-        },
-      },
-    )
-
-    const refreshToken = await reply.jwtSign(
-      {
-        role: user.role,
-        workspaceId: user.workspaceId,
-      },
-      {
-        sign: {
-          sub: request.user.sub,
-          expiresIn: '7d',
-        },
-      },
-    )
-
-    return reply
-      .setCookie('refreshToken', refreshToken, {
-        path: '/',
-        secure: true,
-        sameSite: 'none',
-        httpOnly: true,
-      })
-      .status(200)
-      .send({ token })
+    return reply.status(200).send({
+      workspaceId: user.workspaceId,
+    })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(409).send({ message: err.message })

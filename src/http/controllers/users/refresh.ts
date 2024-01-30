@@ -1,12 +1,24 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
+import { makeGetUserProfileUseCase } from '@/use-cases/factories/make-get-user-profile-use-case'
+
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
-  await request.jwtVerify({ onlyCookie: true })
+  try {
+    await request.jwtVerify({ onlyCookie: true })
+  } catch (error) {
+    console.log({ refreshError: error })
+    return reply.status(401).send({ message: 'Unauthorized' })
+  }
 
-  const token = await reply.jwtSign(
+  const getUserProfileUseCase = makeGetUserProfileUseCase()
+  const { user } = await getUserProfileUseCase.execute({
+    id: request.user.sub,
+  })
+
+  const accessToken = await reply.jwtSign(
     {
       role: request.user.role,
-      workspaceId: request.user.workspaceId,
+      workspaceId: user.workspaceId,
     },
     {
       sign: {
@@ -15,26 +27,11 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     },
   )
 
-  const refreshToken = await reply.jwtSign(
-    {
-      role: request.user.role,
-      workspaceId: request.user.workspaceId,
+  return reply.status(200).send({
+    user: {
+      id: request.user.sub,
+      workspaceId: user.workspaceId,
     },
-    {
-      sign: {
-        sub: request.user.sub,
-        expiresIn: '7d',
-      },
-    },
-  )
-
-  return reply
-    .setCookie('refreshToken', refreshToken, {
-      path: '/',
-      secure: true,
-      sameSite: 'none',
-      httpOnly: true,
-    })
-    .status(200)
-    .send({ token })
+    accessToken,
+  })
 }

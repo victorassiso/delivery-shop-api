@@ -16,16 +16,9 @@ export const app = fastify()
 
 app.register(cors, {
   credentials: true,
-  allowedHeaders: ['content-type'],
+  allowedHeaders: ['content-type', 'Authorization'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
-  origin: (origin, cb) => {
-    if (!origin) {
-      // Return false if no origin is provided
-      return cb(null, false)
-    }
-    // Your origin validation logic here
-    cb(null, true)
-  },
+  origin: true,
 })
 
 app.register(fastifyJwt, {

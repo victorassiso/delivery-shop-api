@@ -20,7 +20,7 @@ export async function authenticateUserControler(
 
     const { user } = await authenticateUserUseCase.execute({ email, password })
 
-    const token = await reply.jwtSign(
+    const accessToken = await reply.jwtSign(
       {
         role: user.role,
         workspaceId: user.workspaceId,
@@ -49,12 +49,16 @@ export async function authenticateUserControler(
       .setCookie('refreshToken', refreshToken, {
         path: '/',
         secure: true,
-        sameSite: 'none',
         httpOnly: true,
+        sameSite: 'none',
       })
       .status(200)
       .send({
-        token,
+        user: {
+          id: user.id,
+          workspaceId: user.workspaceId,
+        },
+        accessToken,
       })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {

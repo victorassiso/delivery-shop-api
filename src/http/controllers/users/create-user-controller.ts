@@ -19,11 +19,52 @@ export async function createUserController(
   try {
     const createUserUseCase = makeCreateUserUseCase()
 
-    await createUserUseCase.execute({
+    const { user } = await createUserUseCase.execute({
       name,
       email,
       password,
     })
+
+    const accessToken = await reply.jwtSign(
+      {
+        role: user.role,
+        workspaceId: user.workspaceId,
+      },
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
+
+    const refreshToken = await reply.jwtSign(
+      {
+        role: user.role,
+        workspaceId: user.workspaceId,
+      },
+      {
+        sign: {
+          sub: user.id,
+          expiresIn: '7d',
+        },
+      },
+    )
+
+    return reply
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        sameSite: 'none',
+      })
+      .status(200)
+      .send({
+        user: {
+          id: user.id,
+          workspaceId: user.workspaceId,
+        },
+        accessToken,
+      })
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
@@ -31,6 +72,4 @@ export async function createUserController(
 
     throw err
   }
-
-  return reply.status(201).send()
 }
