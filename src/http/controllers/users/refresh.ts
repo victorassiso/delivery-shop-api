@@ -5,8 +5,7 @@ import { makeGetUserProfileUseCase } from '@/use-cases/factories/make-get-user-p
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
   try {
     await request.jwtVerify({ onlyCookie: true })
-  } catch (error) {
-    console.log({ refreshError: error })
+  } catch {
     return reply.status(401).send({ message: 'Unauthorized' })
   }
 

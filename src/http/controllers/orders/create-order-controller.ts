@@ -17,7 +17,7 @@ export async function createOrderController(
       }),
     ),
   })
-  console.log(request.body)
+
   const { customerId, items } = createOrderBodySchema.parse(request.body)
 
   try {

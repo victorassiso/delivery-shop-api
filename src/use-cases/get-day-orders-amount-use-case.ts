@@ -37,9 +37,7 @@ export class GetDayOrdersAmountUseCase {
       yesterdayOrdersAmount === 0
         ? 0
         : todayOrdersAmount / yesterdayOrdersAmount - 1
-    console.log({ todayOrdersAmount })
-    console.log({ yesterdayOrdersAmount })
-    console.log({ amountPercentualDiffFromYesterday })
+
     return {
       amount: todayOrdersAmount,
       percentualDiffFromYesterday: amountPercentualDiffFromYesterday,
