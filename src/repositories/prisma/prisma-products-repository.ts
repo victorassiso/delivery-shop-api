@@ -40,15 +40,19 @@ export class PrismaProductsRepository implements ProductsRepository {
         workspaceId: data.workspaceId,
         id: {
           contains: data.id,
+          mode: 'insensitive',
         },
         name: {
           contains: data.name,
+          mode: 'insensitive',
         },
         description: {
           contains: data.description,
+          mode: 'insensitive',
         },
         category: {
           contains: data.category,
+          mode: 'insensitive',
         },
         price: {
           gte: data.minPrice,

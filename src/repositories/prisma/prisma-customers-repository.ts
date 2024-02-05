@@ -56,18 +56,22 @@ export class PrismaCustomersRepository implements CustomersRepository {
         workspaceId: data.workspaceId,
         id: {
           contains: data.id,
+          mode: 'insensitive',
         },
         name: {
           contains: data.name,
+          mode: 'insensitive',
         },
         email: {
           contains: data.email,
+          mode: 'insensitive',
         },
         phone: {
           contains: data.phone,
         },
         address: {
           contains: data.address,
+          mode: 'insensitive',
         },
       },
       orderBy: {

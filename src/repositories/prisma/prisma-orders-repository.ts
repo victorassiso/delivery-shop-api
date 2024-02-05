@@ -41,10 +41,12 @@ export class PrismaOrdersRepository implements OrdersRepository {
         workspaceId: data.workspaceId,
         id: {
           contains: data.orderId,
+          mode: 'insensitive',
         },
         customer: {
           name: {
             contains: data.customerName,
+            mode: 'insensitive',
           },
         },
         status: data.status,

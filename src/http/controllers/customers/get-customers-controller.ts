@@ -10,6 +10,7 @@ export async function getCustomersController(
 ) {
   const getCustomersQuerySchema = z.object({
     pageIndex: z.coerce.number().optional().default(0),
+    perPage: z.coerce.number().optional(),
     id: z.string().uuid().optional(),
     name: z.string().optional(),
     phone: z.string().optional(),
@@ -17,7 +18,7 @@ export async function getCustomersController(
     address: z.string().optional(),
   })
 
-  const { pageIndex, id, name, email, address, phone } =
+  const { pageIndex, perPage, id, name, email, address, phone } =
     getCustomersQuerySchema.parse(request.query)
 
   const workspaceId = request.user.workspaceId
@@ -29,8 +30,9 @@ export async function getCustomersController(
   try {
     const getCustomersUseCase = makeGetCustomersUseCase()
 
-    const { customers } = await getCustomersUseCase.execute({
+    const { customers, meta } = await getCustomersUseCase.execute({
       pageIndex,
+      perPage,
       id,
       name,
       email,
@@ -39,7 +41,7 @@ export async function getCustomersController(
       workspaceId,
     })
 
-    return reply.status(200).send({ customers })
+    return reply.status(200).send({ customers, meta })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })
