@@ -1,5 +1,5 @@
 import { makeCreateProductUseCase } from '@/use-cases/factories/make-create-product-use-case'
-import { makeListProductsUseCase } from '@/use-cases/factories/make-list-products-use-case'
+import { makeGetProductsUseCase } from '@/use-cases/factories/make-get-products-use-case'
 
 export const mockProducts = [
   {
@@ -175,7 +175,7 @@ export async function CreateMockProducts(workspaceId: string) {
     })
   }
 
-  const getProductsUseCase = makeListProductsUseCase()
+  const getProductsUseCase = makeGetProductsUseCase()
   const { products } = await getProductsUseCase.execute({
     workspaceId,
   })
