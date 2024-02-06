@@ -45,4 +45,17 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
+
+  async removeWorkspace(id: string) {
+    const user = prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        workspaceId: null,
+      },
+    })
+
+    return user
+  }
 }

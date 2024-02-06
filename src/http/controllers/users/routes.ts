@@ -6,6 +6,7 @@ import { authenticateUserControler } from './authenticate-user-controller'
 import { createUserController } from './create-user-controller'
 import { GetUserProfileController } from './get-user-profile-controller'
 import { refresh } from './refresh'
+import { removeWorkspaceController } from './remove-workspace-controller'
 import { signOut } from './sign-out-controller'
 
 export async function userRoutes(app: FastifyInstance) {
@@ -17,4 +18,9 @@ export async function userRoutes(app: FastifyInstance) {
   /* Authenticated */
   app.get('/me', { onRequest: [verifyJWT] }, GetUserProfileController)
   app.post('/sign-out', { onRequest: [verifyJWT] }, signOut)
+  app.patch(
+    '/users/remove-workspace',
+    { onRequest: [verifyJWT] },
+    removeWorkspaceController,
+  )
 }

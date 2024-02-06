@@ -9,4 +9,5 @@ export interface UsersRepository {
   findByEmail(email: string): Promise<User | null>
   findById(id: string): Promise<User | null>
   updateWorkspaceId(data: UpdateWorkspaceId): Promise<User | null>
+  removeWorkspace(id: string): Promise<User | null>
 }
