@@ -8,15 +8,15 @@ export async function cancelOrderController(
   reply: FastifyReply,
 ) {
   const createOrderParamsSchema = z.object({
-    orderId: z.string(),
+    id: z.string(),
   })
 
-  const { orderId } = createOrderParamsSchema.parse(request.params)
+  const { id } = createOrderParamsSchema.parse(request.params)
 
   const updateOrderStatusUseCase = makeUpdateOrderStatusUseCase()
 
   await updateOrderStatusUseCase.execute({
-    id: orderId,
+    id,
     status: 'canceled',
   })
 

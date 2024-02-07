@@ -16,9 +16,9 @@ export async function orderRoutes(app: FastifyInstance) {
 
   app.post('/orders', createOrderController)
   app.get('/orders', getOrdersController)
-  app.get('/orders/:orderId', getOrderDetailsController)
-  app.patch('/orders/:orderId/approve', processOrderController)
-  app.patch('/orders/:orderId/cancel', cancelOrderController)
-  app.patch('/orders/:orderId/deliver', deliverOrderController)
-  app.patch('/orders/:orderId/dispatch', dispatchOrderController)
+  app.get('/orders/:id', getOrderDetailsController)
+  app.patch('/orders/:id/approve', processOrderController)
+  app.patch('/orders/:id/cancel', cancelOrderController)
+  app.patch('/orders/:id/deliver', deliverOrderController)
+  app.patch('/orders/:id/dispatch', dispatchOrderController)
 }

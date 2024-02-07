@@ -22,13 +22,13 @@ export async function updateWorkspaceController(
       throw new ResourceNotFoundError()
     }
 
-    await updateWorkspaceUseCase.execute({
+    const { workspace } = await updateWorkspaceUseCase.execute({
       id: request.user.workspaceId,
       name,
       code,
     })
 
-    return reply.status(200).send()
+    return reply.status(200).send({ workspace })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })

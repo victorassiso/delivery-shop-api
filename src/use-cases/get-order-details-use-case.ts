@@ -6,7 +6,7 @@ import {
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 export interface GetOrdersUseCaseRequest {
-  orderId: string
+  id: string
 }
 
 export interface GetOrderDetailsResponse {
@@ -17,9 +17,9 @@ export class GetOrderDetailsUseCase {
   constructor(private ordersRepository: OrdersRepository) {}
 
   async execute({
-    orderId,
+    id,
   }: GetOrdersUseCaseRequest): Promise<GetOrderDetailsResponse> {
-    const orderDetails = await this.ordersRepository.getOrderDetails(orderId)
+    const orderDetails = await this.ordersRepository.getOrderDetails(id)
 
     if (!orderDetails) {
       throw new ResourceNotFoundError()

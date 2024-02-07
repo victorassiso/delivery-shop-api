@@ -9,10 +9,10 @@ export async function getOrderDetailsController(
   reply: FastifyReply,
 ) {
   const getOrdersParamsSchema = z.object({
-    orderId: z.string().uuid(),
+    id: z.string().uuid(),
   })
 
-  const { orderId } = getOrdersParamsSchema.parse(request.params)
+  const { id } = getOrdersParamsSchema.parse(request.params)
 
   const workspaceId = request.user.workspaceId
   if (!workspaceId) {
@@ -23,7 +23,7 @@ export async function getOrderDetailsController(
     const getOrderDetailsUseCase = makeGetOrderDetailsUseCase()
 
     const { orderDetails } = await getOrderDetailsUseCase.execute({
-      orderId,
+      id,
     })
 
     return reply.status(200).send({

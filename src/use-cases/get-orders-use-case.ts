@@ -6,7 +6,7 @@ import { WorkspacesRepository } from '@/repositories/workspaces-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface OrderResponse {
-  orderId: string
+  id: string
   createdAt: Date
   status: OrderStatus
   customerName: string
@@ -58,7 +58,7 @@ export class GetOrdersUseCase {
 
     const formatedOrders: OrderResponse[] = orders.map((item) => {
       return {
-        orderId: item.id,
+        id: item.id,
         createdAt: item.createdAt,
         status: item.status,
         customerName: item.customer.name,
