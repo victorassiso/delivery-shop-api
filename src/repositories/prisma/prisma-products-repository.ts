@@ -1,8 +1,13 @@
 import { Prisma } from '@prisma/client'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 
 import { prisma } from '@/lib/prisma'
 
-import { ProductQueryParams, ProductsRepository } from '../products-repository'
+import {
+  ProductQueryParams,
+  ProductsRepository,
+  ProductUpdateProps,
+} from '../products-repository'
 
 export class PrismaProductsRepository implements ProductsRepository {
   async create(data: Prisma.ProductUncheckedCreateInput) {
@@ -61,6 +66,34 @@ export class PrismaProductsRepository implements ProductsRepository {
       },
       orderBy: [{ name: 'asc' }],
     })
+
     return products
+  }
+
+  async update({ id, category, description, name, price }: ProductUpdateProps) {
+    try {
+      const product = await prisma.product.update({
+        where: {
+          id,
+        },
+        data: {
+          name,
+          description,
+          category,
+          price,
+        },
+      })
+      return product
+    } catch (error) {
+      console.log({ PrismaERROR: error })
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        return null
+      }
+
+      throw error
+    }
   }
 }
