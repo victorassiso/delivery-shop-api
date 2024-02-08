@@ -171,12 +171,12 @@ export class PrismaOrdersRepository implements OrdersRepository {
     const startOftoday = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDay(),
+      currentDate.getDate(),
     )
     const endOftoday = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDay() + 1,
+      currentDate.getDate() + 1,
     )
 
     const orders = await prisma.order.findMany({
@@ -197,12 +197,12 @@ export class PrismaOrdersRepository implements OrdersRepository {
     const startOfyesterday = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDay() - 1,
+      currentDate.getDate() - 1,
     )
     const endOfyesterday = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDay(),
+      currentDate.getDate(),
     )
 
     const orders = await prisma.order.findMany({
