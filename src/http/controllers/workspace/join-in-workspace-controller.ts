@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
+import { WorkspaceNotFoundError } from '@/use-cases/errors/workspace-not-found-error'
 import { makeJoinInWorkspaceUseCase } from '@/use-cases/factories/make-join-in-workspace-use-case'
 
 export async function joinInWorkspaceController(
@@ -31,7 +32,11 @@ export async function joinInWorkspaceController(
     })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
-      return reply.status(409).send({ message: err.message })
+      return reply.status(400).send({ message: err.message })
+    }
+
+    if (err instanceof WorkspaceNotFoundError) {
+      return reply.status(400).send({ message: err.message })
     }
 
     throw err

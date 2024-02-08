@@ -38,10 +38,7 @@ export async function createUserController(
     )
 
     const refreshToken = await reply.jwtSign(
-      {
-        role: user.role,
-        workspaceId: user.workspaceId,
-      },
+      {},
       {
         sign: {
           sub: user.id,
