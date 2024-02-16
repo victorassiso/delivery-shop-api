@@ -49,3 +49,11 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_237c280970cd4ee58cc8588ab3793195 }}
         images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_790517ab79dc4459b3d9e8a0281ec895 }}/victorassiso/pizza-shop-api:${{ github.sha }}'
+      env:
+        NODE_ENV: production
+        PORT: 80
+        WEBSITED_PORT: 80
+        # Auth
+        JWT_SECRET: stockwisenode
+        # Database
+        DATABASE_URL: "postgres://pizza_shop_db_juaa_user:ecoSJZDiC4tyElE8RcRzWhDh3i2MS35M@dpg-cmo3jdg21fec73cugddg-a.ohio-postgres.render.com/pizza_shop_db_juaa"
