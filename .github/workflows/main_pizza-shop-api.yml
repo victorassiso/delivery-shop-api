@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_135fda3cb8f449f7ae0c603ea31b1248 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_8c3587ec90284778bb27c19c622be8ba }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_790517ab79dc4459b3d9e8a0281ec895 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_1c46da64271345379eff7a62ad876de7 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_135fda3cb8f449f7ae0c603ea31b1248 }}/victorassiso/pizza-shop-api:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_790517ab79dc4459b3d9e8a0281ec895 }}/victorassiso/pizza-shop-api:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'pizza-shop-api'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2a74f290dd3e4f1aaac99b341cbe3999 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_135fda3cb8f449f7ae0c603ea31b1248 }}/victorassiso/pizza-shop-api:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_237c280970cd4ee58cc8588ab3793195 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_790517ab79dc4459b3d9e8a0281ec895 }}/victorassiso/pizza-shop-api:${{ github.sha }}'
