@@ -3,7 +3,7 @@ import { env } from '@/env'
 
 app
   .listen({
-    host: 'RENDER' in process.env ? '0.0.0.0' : 'localhost',
+    host: '0.0.0.0',
     port: env.PORT,
   })
   .then(() => {

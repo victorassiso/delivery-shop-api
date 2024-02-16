@@ -6,6 +6,7 @@ import { ZodError } from 'zod'
 
 import { env } from './env'
 import { customerRoutes } from './http/controllers/customers/routes'
+import { healthCheck } from './http/controllers/health-check/health-check'
 import { metricRoutes } from './http/controllers/metrics/routes'
 import { orderRoutes } from './http/controllers/orders/routes'
 import { productRoutes } from './http/controllers/products/routes'
@@ -40,6 +41,7 @@ app.register(workspaceRoutes)
 app.register(customerRoutes)
 app.register(orderRoutes)
 app.register(metricRoutes)
+app.register(healthCheck)
 
 app.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
