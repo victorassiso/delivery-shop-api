@@ -85,7 +85,6 @@ export class PrismaProductsRepository implements ProductsRepository {
       })
       return product
     } catch (error) {
-      console.log({ PrismaERROR: error })
       if (
         error instanceof PrismaClientKnownRequestError &&
         error.code === 'P2025'

@@ -36,8 +36,6 @@ export async function updateProductController(
       price,
     })
 
-    console.log({ productController: product })
-
     return reply.status(200).send({ product })
   } catch (error) {
     if (error instanceof ResourceNotFoundError) {

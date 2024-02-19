@@ -34,8 +34,6 @@ export class UpdateProductUseCase {
       price,
     })
 
-    console.log({ productUseCase: product })
-
     if (!product) {
       throw new ResourceNotFoundError()
     }
