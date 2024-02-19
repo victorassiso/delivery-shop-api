@@ -2,6 +2,7 @@ import { Workspace } from '@prisma/client'
 
 import { WorkspacesRepository } from '@/repositories/workspaces-repository'
 
+import { CodeAlreadyExistsError } from './errors/code-already-exists-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface UpdateWorkspaceUseCaseRequest {
@@ -22,6 +23,12 @@ export class UpdateWorkspaceUseCase {
     name,
     code,
   }: UpdateWorkspaceUseCaseRequest): Promise<UpdateWorkspaceUseCaseResponse> {
+    const codeAlreadyInUse = await this.workspacesRepository.findByCode(code)
+
+    if (codeAlreadyInUse) {
+      throw new CodeAlreadyExistsError()
+    }
+
     const workspace = await this.workspacesRepository.update({ id, name, code })
 
     if (!workspace) {

@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
+import { CodeAlreadyExistsError } from '@/use-cases/errors/code-already-exists-error'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 import { makeUpdateWorkspaceUseCase } from '@/use-cases/factories/make-update-workspace-use-case'
 
@@ -32,6 +33,9 @@ export async function updateWorkspaceController(
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(400).send({ message: err.message })
+    }
+    if (err instanceof CodeAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
     }
 
     throw err
