@@ -55,7 +55,7 @@ jobs:
         app-name: 'delivery-shop-api'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_032137201C994C0DA4C171810AE58B2C }}
-        images: 'index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }}/pizza-shop-api:latest'
+        images: 'index.docker.io/victorassiso/pizza-shop-api:latest'
       env:
         NODE_ENV: production
         PORT: 80
