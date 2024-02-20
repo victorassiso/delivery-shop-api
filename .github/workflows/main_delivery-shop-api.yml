@@ -50,8 +50,8 @@ jobs:
         images: 'index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }}/pizza-shop-api:latest'
       env:
         NODE_ENV: production
-        PORT: 8080
-        WEBSITED_PORT: 8080
+        PORT: 80
+        WEBSITED_PORT: 80
         # Auth
         JWT_SECRET: stockwisenode
         # Database
