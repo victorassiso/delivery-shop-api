@@ -51,7 +51,7 @@ jobs:
       env:
         NODE_ENV: production
         PORT: 80
-        WEBSITED_PORT: 80
+        WEBSITED_PORT: 8080
         # Auth
         JWT_SECRET: stockwisenode
         # Database
