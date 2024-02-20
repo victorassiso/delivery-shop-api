@@ -23,15 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_b36d65106c094b29bac97b32ebb69f61 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_d88d0248a7a7401aac197fba4b8d883f }}
+        username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }}
+        password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_908A6F2373E74A3A8A4D55A6E44F6C04  }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_b36d65106c094b29bac97b32ebb69f61 }}/pizza-shop-api:${{ github.sha }}
-        file: ./Dockerfile
+      run: |
+        docker build -t victorassiso/pizza-shop-api:latest .
+        docker login -u ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }} -p ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_908A6F2373E74A3A8A4D55A6E44F6C04 }}
+        docker push victorassiso/pizza-shop-api:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,5 +46,13 @@ jobs:
       with:
         app-name: 'delivery-shop-api'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2065a87614e548c79eb8fe35ef6dcd2b }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_b36d65106c094b29bac97b32ebb69f61 }}/pizza-shop-api:${{ github.sha }}'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_032137201C994C0DA4C171810AE58B2C }}
+        images: 'index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }}/pizza-shop-api:latest'
+      env:
+        NODE_ENV: production
+        PORT: 8080
+        WEBSITED_PORT: 8080
+        # Auth
+        JWT_SECRET: stockwisenode
+        # Database
+        DATABASE_URL: "postgres://pizza_shop_db_juaa_user:ecoSJZDiC4tyElE8RcRzWhDh3i2MS35M@dpg-cmo3jdg21fec73cugddg-a.ohio-postgres.render.com/pizza_shop_db_juaa"
