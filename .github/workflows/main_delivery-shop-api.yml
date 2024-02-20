@@ -38,6 +38,7 @@ jobs:
     environment:
       name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    env:
       NODE_ENV: production
       PORT: 80
       WEBSITED_PORT: 8080
