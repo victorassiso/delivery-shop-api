@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  api-cashflow:
+  delivery-shop-database:
     image: bitnami/postgresql
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=api-cashflow
+      - POSTGRESQL_DATABASE=delivery-shop-database

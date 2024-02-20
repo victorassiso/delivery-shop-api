@@ -1,5 +1,5 @@
 {
-  "name": "stockwise-api",
+  "name": "delivery-shop-api",
   "version": "1.0.0",
   "description": "",
   "main": "server.ts",
@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "prod": "node build/server.js",
+    "migrate:prod": "node build/server.js",
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup src --out-dir build",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
