@@ -27,18 +27,10 @@ jobs:
         password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_908A6F2373E74A3A8A4D55A6E44F6C04 }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }}/victorassiso/pizza-shop-api:latest
-        file: ./Dockerfile
-
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: index.docker.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }}/victorassiso/pizza-shop-api:${{ github.sha }}
-        file: ./Dockerfile
+      command: |
+        docker build -t victorassiso/pizza-shop-api:latest
+        docker login -u ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8B3F6D569C374D02B14AEED044288F4E }} -p ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_908A6F2373E74A3A8A4D55A6E44F6C04 }}
+        docker push victorassiso/pizza-shop-api:latest
 
   deploy:
     runs-on: ubuntu-latest
