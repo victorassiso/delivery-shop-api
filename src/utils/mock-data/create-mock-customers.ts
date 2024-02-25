@@ -1,5 +1,8 @@
+import { Customer } from '@prisma/client'
+
 import { makeCreateCustomerUseCase } from '@/use-cases/factories/make-create-customer-use-case'
-import { makeGetCustomersUseCase } from '@/use-cases/factories/make-get-customers-use-case'
+
+import { limit } from '../limit'
 
 const mockCustomers = [
   {
@@ -244,27 +247,55 @@ const mockCustomers = [
   },
 ]
 
-export async function CreateMockCustomers(workspaceId: string) {
+export async function createMockCustomers(
+  workspaceId: string,
+  progressCallback: (message: string) => void,
+) {
   const createCustomerUseCase = makeCreateCustomerUseCase()
+  const createCustomerTasks = []
+  const customers: Customer[] = []
+  let lastCallback = Date.now()
 
   for (let i = 0; i < mockCustomers.length; i++) {
-    const customer = mockCustomers[i]
-
     // Create customer
-    await createCustomerUseCase.execute({
-      workspaceId,
-      name: customer.name,
-      email: customer.email,
-      address: customer.address,
-      phone: customer.phone,
-    })
+    const createCustomerTask = () =>
+      createCustomerUseCase.execute({
+        workspaceId,
+        name: mockCustomers[i].name,
+        email: mockCustomers[i].email,
+        address: mockCustomers[i].address,
+        phone: mockCustomers[i].phone,
+      })
+
+    createCustomerTasks.push(createCustomerTask)
   }
 
-  // Return created customers
-  const getCustomersUseCase = makeGetCustomersUseCase()
-  const { customers } = await getCustomersUseCase.execute({
-    workspaceId,
+  const customerResults = await limit(createCustomerTasks, {
+    concurrencyLimit: 40,
+    progressCallback: (progress) => {
+      if (Date.now() - lastCallback >= 50) {
+        progressCallback(
+          JSON.stringify({
+            step: 'customers',
+            progress,
+          }),
+        )
+        lastCallback = Date.now()
+      }
+    },
   })
+
+  for (const result of customerResults) {
+    customers.push(result.customer)
+  }
+
+  // Send final progress update
+  progressCallback(
+    JSON.stringify({
+      step: 'customers',
+      progress: 1,
+    }),
+  )
 
   return customers
 }

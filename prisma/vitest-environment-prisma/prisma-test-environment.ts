@@ -1,18 +1,17 @@
-import 'dotenv/config'
-
 import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 
 import { Environment } from 'vitest'
 
+import { env } from '@/env'
 import { prisma } from '@/lib/prisma'
 
 function genereteDatabaseURL(schema: string) {
-  if (!process.env.DATABASE_URL) {
+  if (!env.DATABASE_URL) {
     throw new Error('Please provide a DATABASE_URL environment variable.')
   }
 
-  const url = new URL(process.env.DATABASE_URL)
+  const url = new URL(env.DATABASE_URL)
 
   url.searchParams.set('schema', schema)
 

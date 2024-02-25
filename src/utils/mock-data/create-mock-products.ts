@@ -1,5 +1,8 @@
+import { Product } from '@prisma/client'
+
 import { makeCreateProductUseCase } from '@/use-cases/factories/make-create-product-use-case'
-import { makeGetProductsUseCase } from '@/use-cases/factories/make-get-products-use-case'
+
+import { limit } from '../limit'
 
 export const mockProducts = [
   {
@@ -159,26 +162,55 @@ export const mockProducts = [
   },
 ]
 
-export async function CreateMockProducts(workspaceId: string) {
+export async function createMockProducts(
+  workspaceId: string,
+  progressCallback: (message: string) => void,
+) {
   const createProductUseCase = makeCreateProductUseCase()
+  const createProductTasks = []
+  const products: Product[] = []
+  let lastCallback = Date.now()
 
   for (let i = 0; i < mockProducts.length; i++) {
-    const product = mockProducts[i]
-
     // Create Product
-    await createProductUseCase.execute({
-      workspaceId,
-      name: product.name,
-      category: product.category,
-      description: product.description,
-      price: product.price,
-    })
+    const createProductTask = () =>
+      createProductUseCase.execute({
+        workspaceId,
+        name: mockProducts[i].name,
+        category: mockProducts[i].category,
+        description: mockProducts[i].description,
+        price: mockProducts[i].price,
+      })
+
+    createProductTasks.push(createProductTask)
   }
 
-  const getProductsUseCase = makeGetProductsUseCase()
-  const { products } = await getProductsUseCase.execute({
-    workspaceId,
+  const productResults = await limit(createProductTasks, {
+    concurrencyLimit: 40,
+    progressCallback: (progress) => {
+      if (Date.now() - lastCallback >= 50) {
+        progressCallback(
+          JSON.stringify({
+            step: 'products',
+            progress,
+          }),
+        )
+        lastCallback = Date.now()
+      }
+    },
   })
+
+  for (const result of productResults) {
+    products.push(result.product)
+  }
+
+  // Send final progress update
+  progressCallback(
+    JSON.stringify({
+      step: 'products',
+      progress: 1,
+    }),
+  )
 
   return products
 }

@@ -3,7 +3,6 @@ import { z } from 'zod'
 
 import { WorkspaceAlreadyExistsError } from '@/use-cases/errors/workspace-already-exists-error'
 import { makeCreateWorkspaceUseCase } from '@/use-cases/factories/make-create-workspace-use-case'
-import { seedDatabase } from '@/utils/mock-data/seed-database'
 
 export async function createWorkspaceController(
   request: FastifyRequest,
@@ -19,13 +18,11 @@ export async function createWorkspaceController(
   try {
     const createWorkspaceUseCase = makeCreateWorkspaceUseCase()
 
-    const { user, workspace } = await createWorkspaceUseCase.execute({
+    const { user } = await createWorkspaceUseCase.execute({
       name,
       code,
       userId: request.user.sub,
     })
-
-    seedDatabase(workspace)
 
     return reply.status(201).send({ workspaceId: user.id })
   } catch (err) {

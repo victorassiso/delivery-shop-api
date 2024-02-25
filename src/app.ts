@@ -1,6 +1,7 @@
 import fastifyCookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
+import fastifyWebsocket from '@fastify/websocket'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 
@@ -34,6 +35,9 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+app.register(fastifyWebsocket, {
+  options: { maxPayload: 524288000 },
+})
 
 app.register(userRoutes)
 app.register(productRoutes)

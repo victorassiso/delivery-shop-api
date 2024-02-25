@@ -6,6 +6,7 @@ import { createWorkspaceController } from './create-workspace-controller'
 import { getWorkspaceController } from './get-workspace-controller'
 import { joinInWorkspaceController } from './join-in-workspace-controller'
 import { removeWorkspaceController } from './remove-workspace-controller'
+import { seedDatabaseController } from './seed-database-controller'
 import { updateWorkspaceController } from './update-workspace-controller'
 
 export async function workspaceRoutes(app: FastifyInstance) {
@@ -16,4 +17,6 @@ export async function workspaceRoutes(app: FastifyInstance) {
   app.put('/workspaces', updateWorkspaceController)
   app.post('/workspaces/join-in', joinInWorkspaceController)
   app.patch('/workspaces/remove', removeWorkspaceController)
+
+  app.get('/seedDatabase', { websocket: true }, seedDatabaseController)
 }
