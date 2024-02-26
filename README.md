@@ -32,4 +32,5 @@ The React Delivery Shop is currently deployed on Render and can be accessed via 
 * Docker
 * Vitest (unit and e2e tests)
 * Axios
+* WebSockets
 * ESlint and Prettier
