@@ -35,7 +35,7 @@ export async function createMockOrders(
   for (let i = 0; i < totalOrders; i++) {
     // Create items
     const items = []
-    const numberOfProducts = Math.floor(Math.random() * 4) + 1
+    const numberOfProducts = Math.floor(Math.random() * 2) + 1
     for (let j = 0; j < numberOfProducts; j++) {
       const curProduct = getRandomProduct(products)
       items.push({
