@@ -23,4 +23,7 @@ if (env.NODE_ENV === 'development' && env.DEV_DATABASE_URL) {
   env.DATABASE_URL = env.DEV_DATABASE_URL
 }
 
-console.log({ env })
+console.log({
+  ...env,
+  JWT_SECRET: '**********',
+})
