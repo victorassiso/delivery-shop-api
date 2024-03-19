@@ -2,14 +2,14 @@
   "name": "delivery-shop-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "index.ts",
   "engines": {
     "node": "20"
   },
   "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "prod": "node build/server.js",
-    "migrate:prod": "node build/server.js",
+    "dev": "tsx watch src/index.ts",
+    "prod": "node build/index.js",
+    "migrate:prod": "node build/index.js",
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup src --out-dir build",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
